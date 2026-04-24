@@ -352,7 +352,7 @@ ul { padding-left: 20px; }
 /* ═══════════════════════════════════════════
    EDUCATION
 ═══════════════════════════════════════════ */
-.education-section { background: #fafafa; }
+.education-section { background: white; }
 
 .edu-container {
   display: flex;
@@ -607,7 +607,7 @@ ul { padding-left: 20px; }
 /* ═══════════════════════════════════════════
    SKILLS
 ═══════════════════════════════════════════ */
-.skills-section { background: #f8f8f8; }
+.skills-section { background: white; }
 
 .skills-grid {
   display: grid;
@@ -725,7 +725,7 @@ ul { padding-left: 20px; }
 /* ═══════════════════════════════════════════
    CONFERENCES
 ═══════════════════════════════════════════ */
-.conferences-section { background: #f4f4f4; }
+.conferences-section { background: white; }
 
 .conf-card {
   background: linear-gradient(135deg, #141414 0%, #2a2a2a 100%);
@@ -764,7 +764,7 @@ ul { padding-left: 20px; }
    CONTACT
 ═══════════════════════════════════════════ */
 .contact-section {
-  background: #0a0a0a;
+  background: white;
   padding: 80px 10vw;
 }
 
@@ -778,12 +778,12 @@ ul { padding-left: 20px; }
 
 .contact-title {
   font-size: 3rem;
-  color: white;
+  color: black;
   margin: 0 0 16px 0;
 }
 .contact-sub {
   font-size: 1rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(7, 7, 7, 0.6);
   line-height: 1.7;
   max-width: 480px;
   margin: 0 0 30px 0;
@@ -793,14 +793,14 @@ ul { padding-left: 20px; }
   display: flex;
   align-items: center;
   gap: 12px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(15, 15, 15, 0.75);
   font-size: 0.92rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 .contact-link-item i { font-size: 1rem; color: rgba(255,255,255,0.4); }
-.contact-link-item:hover { color: white; text-decoration: none; }
-.contact-link-item:hover i { color: white; }
+.contact-link-item:hover { color: black; text-decoration: none; }
+.contact-link-item:hover i { color: black; }
 
 .contact-right {
   display: flex;
@@ -813,8 +813,8 @@ ul { padding-left: 20px; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: white;
-  color: black;
+  background: black;
+  color: white;
   padding: 14px 30px;
   border-radius: 50px;
   font-size: 0.95rem;
@@ -823,28 +823,28 @@ ul { padding-left: 20px; }
   transition: background 0.3s, transform 0.2s;
   white-space: nowrap;
 }
-.contact-btn:hover { background: #ddd; transform: scale(1.04); text-decoration: none; color: black; }
+.contact-btn:hover { background: #0a0a0a; transform: scale(1.04); text-decoration: none; color: rgb(255, 255, 255); }
 
 .contact-btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: transparent;
-  color: white;
+  color: black;
   padding: 14px 30px;
   border-radius: 50px;
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  border: 1.5px solid rgba(255,255,255,0.3);
+  border: 1.5px solid rgba(14, 8, 8, 0.3);
   transition: border-color 0.3s, transform 0.2s;
   white-space: nowrap;
 }
 .contact-btn-outline:hover {
-  border-color: white;
+  border-color: black;
   transform: scale(1.04);
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 

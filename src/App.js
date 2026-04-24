@@ -367,7 +367,7 @@ function App() {
         <h2 className="section-title">Skills</h2>
         <div className="skills-grid">
           {[
-            { cat: 'Languages',          icon: 'fa-solid fa-terminal',   tags: ['Java', 'Python', 'JavaScript', 'HTML', 'CSS', 'SQL'] },
+            { cat: 'Languages',          icon: 'fa-solid fa-terminal',   tags: [ 'Python', 'JavaScript', 'HTML', 'CSS', 'SQL'] },
             { cat: 'Frameworks & Tools', icon: 'fa-solid fa-toolbox',    tags: ['React', 'Flask', 'OpenCV', 'Git', 'REST APIs', 'SQLite'] },
             { cat: 'AI / ML',            icon: 'fa-solid fa-brain',      tags: ['TensorFlow', 'Keras', 'MobileNetV2', 'LLMs', 'Transfer Learning'] },
             { cat: 'Other',              icon: 'fa-solid fa-layer-group', tags: ['MongoDB', 'Blockchain', 'Problem Solving', 'Self-Learning'] },
