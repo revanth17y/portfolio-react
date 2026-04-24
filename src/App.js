@@ -255,7 +255,7 @@ function App() {
           {/* Card 2 */}
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
+                 onClick={() => window.open('https://drive.google.com/file/d/1FNBB3KoNvNj36d4SIeM45m50IxFOOunq/view?usp=sharing', '_blank')}>
               <div className="front" style={{ backgroundColor: 'wheat' }}>
                 <div className="front-content">
                   <h3>Intermediate Education</h3>
@@ -273,7 +273,7 @@ function App() {
           {/* Card 3 */}
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
+                 onClick={() => window.open('https://drive.google.com/file/d/12HRL3YaauXlDd_y2MwHcCqLnMAEZgX3H/view?usp=sharing', '_blank')}>
               <div className="front" style={{ backgroundColor: 'thistle' }}>
                 <div className="front-content">
                   <h3>Secondary School (SSC)</h3>
