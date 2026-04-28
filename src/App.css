@@ -47,16 +47,30 @@
   from { transform: translateX(0);    }
   to   { transform: translateX(-50%); }
 }
-@keyframes drawHintArrow {
-  from { stroke-dashoffset: 200; }
+
+/* ── Handwritten hint animations ── */
+@keyframes hintTextAppear {
+  0%   { opacity: 0; transform: translateY(-6px) rotate(-2deg); }
+  20%  { opacity: 1; transform: translateY(0)    rotate(-2deg); }
+  80%  { opacity: 1; transform: translateY(0)    rotate(-2deg); }
+  100% { opacity: 0; transform: translateY(4px)  rotate(-2deg); }
+}
+@keyframes drawArrow {
+  from { stroke-dashoffset: 320; }
   to   { stroke-dashoffset: 0;   }
 }
-@keyframes hintFadeInOut {
-  0%   { opacity: 0; transform: translateY(-4px); }
-  15%  { opacity: 1; transform: translateY(0); }
-  75%  { opacity: 1; }
-  100% { opacity: 0; }
+@keyframes arrowheadPop {
+  0%   { opacity: 0; transform: scale(0) rotate(-10deg); }
+  70%  { opacity: 1; transform: scale(1.2) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
+@keyframes hintWrapFade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  78%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+
 @keyframes headerSlideDown {
   from { transform: translateY(-100%); opacity: 0; }
   to   { transform: translateY(0);     opacity: 1; }
@@ -100,7 +114,7 @@ ul { padding-left: 20px; }
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 6vw;
-  height: 72px;                /* ← increased height */
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -138,7 +152,6 @@ ul { padding-left: 20px; }
   text-decoration: none;
 }
 
-/* Resume button — expands like social icons on hover */
 .header-resume-btn {
   display: flex;
   align-items: center;
@@ -347,7 +360,7 @@ ul { padding-left: 20px; }
 .skills-section,
 .certifications-section,
 .conferences-section {
-  background: #fafafa;    /* same as education — every section matches */
+  background: #fafafa;
 }
 
 
@@ -363,24 +376,63 @@ ul { padding-left: 20px; }
 }
 .edu-hint-wrap { position: relative; overflow: visible; }
 
-/* Click-me hint — RIGHT of card, fades out */
+/* ── Handwritten hint — floats above the top-right corner of the first card ── */
 .edu-click-hint {
   position: absolute;
-  top: 20%; right: -150px;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
-  z-index: 10; pointer-events: none;
-  animation: hintFadeInOut 5s ease 1s forwards;
+  top: -110px;       /* sits above the card */
+  right: 10px;       /* anchored to the right edge of the card */
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0px;
+  z-index: 10;
+  pointer-events: none;
+  animation: hintWrapFade 6s ease 1.2s forwards;
 }
-.hint-label {
-  font-size: 0.85rem; font-weight: 700; font-style: italic;
-  color: #444; letter-spacing: 0.4px; margin-left: 8px;
-}
-.hint-arrow-path {
-  stroke-dasharray: 200; stroke-dashoffset: 200;
-  animation: drawHintArrow 1.2s ease 1.2s forwards;
-}
-.hint-arrow-svg { display: block; }
 
+/* Handwritten text — uses a cursive Google Font loaded inline */
+.hint-label {
+  font-family: 'Caveat', 'Dancing Script', 'Segoe Script', cursive;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.25;
+  display: block;
+  margin-left: 2px;
+  /* text slides in first */
+  animation: hintTextAppear 6s ease 1.2s forwards;
+  opacity: 0;
+  transform: rotate(-2deg);
+}
+
+/* SVG arrow container */
+.hint-arrow-svg {
+  display: block;
+  margin-top: 2px;
+  margin-left: 10px;
+  overflow: visible;
+}
+
+/* The drawn path */
+.hint-arrow-path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  /* draw starts 0.5s after text appears */
+  animation: drawArrow 1.4s cubic-bezier(0.4, 0, 0.2, 1) 2s forwards;
+}
+
+/* Arrowhead dot/triangle at the tip */
+.hint-arrowhead {
+  opacity: 0;
+  transform-origin: center;
+  animation: arrowheadPop 0.35s ease 3.3s forwards;
+}
+
+
+/* ═══════════════════════════════════════════
+   EDU CARD (flip)
+═══════════════════════════════════════════ */
 .edu-card {
   width: 100%; height: 240px; position: relative;
   transform-style: preserve-3d;
@@ -405,13 +457,11 @@ ul { padding-left: 20px; }
 
 
 /* ═══════════════════════════════════════════
-   EXPERIENCE / TIMELINE — straight line back
+   EXPERIENCE / TIMELINE
 ═══════════════════════════════════════════ */
 .timeline {
   position: relative; margin: 0 auto; padding: 40px 0; width: 92%;
 }
-
-/* Straight gradient line — same as original */
 .timeline::before {
   content: '';
   position: absolute;
@@ -423,7 +473,6 @@ ul { padding-left: 20px; }
   background: linear-gradient(to bottom, #ddd, #aaa, #ddd);
   border-radius: 4px;
 }
-
 .timeline-card {
   position: relative; width: 45%; padding: 28px 30px;
   border-radius: 14px; box-shadow: 0 10px 24px rgba(0,0,0,0.14);
@@ -537,14 +586,12 @@ ul { padding-left: 20px; }
 
 
 /* ═══════════════════════════════════════════
-   CERTIFICATIONS — cards matching project theme
+   CERTIFICATIONS
 ═══════════════════════════════════════════ */
 .cert-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 24px; margin-top: 24px;
 }
-
-/* Styled exactly like project-cards — pastel bg, same radius & shadow */
 .cert-card {
   border-radius: 18px;
   padding: 26px 24px;
@@ -560,25 +607,18 @@ ul { padding-left: 20px; }
   transform: translateY(-7px);
   box-shadow: 0 18px 36px rgba(0,0,0,0.15);
 }
-
 .cert-top {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 6px;
 }
-.cert-icon {
-  font-size: 1.5rem; color: #333;
-}
+.cert-icon { font-size: 1.5rem; color: #333; }
 .cert-badge {
   font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: #555;
   background: rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 50px;
 }
-.cert-name {
-  font-size: 1rem; font-weight: 700; color: #111; margin: 0;
-}
-.cert-issuer {
-  font-size: 0.82rem; color: #555; margin: 0;
-}
+.cert-name { font-size: 1rem; font-weight: 700; color: #111; margin: 0; }
+.cert-issuer { font-size: 0.82rem; color: #555; margin: 0; }
 .cert-footer {
   margin-top: 12px; padding-top: 12px;
   border-top: 1px solid rgba(0,0,0,0.08);
@@ -616,10 +656,10 @@ ul { padding-left: 20px; }
 
 
 /* ═══════════════════════════════════════════
-   CONTACT — white background
+   CONTACT
 ═══════════════════════════════════════════ */
 .contact-section {
-  background: #fafafa;         /* white — same as all other sections */
+  background: #fafafa;
   padding: 80px 10vw;
 }
 .contact-inner {
@@ -668,20 +708,17 @@ ul { padding-left: 20px; }
 
 
 /* ═══════════════════════════════════════════
-   FOOTER — white background
+   FOOTER
 ═══════════════════════════════════════════ */
 .site-footer-bottom {
   background: #ffffff;
   padding: 56px 10vw 24px;
   border-top: 1.5px solid #ebebeb;
 }
-
 .footer-inner {
   display: flex; flex-wrap: wrap; gap: 60px; margin-bottom: 40px;
   align-items: flex-start;
 }
-
-/* Left brand block — fully fleshed out */
 .footer-brand { flex: 1; min-width: 220px; }
 .footer-logo { font-size: 2rem; font-weight: 900; color: #111; letter-spacing: 3px; display: block; margin-bottom: 12px; }
 .footer-tagline { color: #666; font-size: 0.88rem; margin: 0 0 18px 0; line-height: 1.65; }
@@ -699,7 +736,6 @@ ul { padding-left: 20px; }
   background: #f4f4f4; text-decoration: none;
 }
 
-/* Nav & contact columns */
 .footer-col { display: flex; flex-direction: column; gap: 10px; min-width: 160px; }
 .footer-col h5 {
   color: #999; font-size: 0.68rem;

@@ -126,12 +126,16 @@ function App() {
 
   return (
     <div>
+      {/* ── Load Caveat handwriting font from Google Fonts ── */}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+        rel="stylesheet"
+      />
 
-      {/* ══ HEADER — white, only after hero ══ */}
+      {/* ══ HEADER ══ */}
       <header className={`site-header ${showHeader ? 'header-visible' : ''}`}>
         <div className="header-inner">
           <span className="header-logo">YRK</span>
-
           <nav className="header-nav">
             <a href="#education">Education</a>
             <a href="#experience">Experience</a>
@@ -139,8 +143,6 @@ function App() {
             <a href="#skills">Skills</a>
             <a href="#contact">Contact</a>
           </nav>
-
-          {/* Resume button — same hover style as social icons */}
           <a href="/resume.pdf" target="_blank" rel="noreferrer" className="header-resume-btn">
             <i className="fa-solid fa-file-lines" />
             <span>Resume</span>
@@ -151,7 +153,6 @@ function App() {
 
       {/* ══ HERO ══ */}
       <section className="hero-section" ref={heroRef}>
-
         <div className="hero-text">
           <h1>Hi, I'm</h1>
           <h1><span className="typing" ref={typingRef}>Yaram Revanth Kumar</span></h1>
@@ -180,20 +181,17 @@ function App() {
             <h4>CS @ RMKEC&nbsp;'26</h4>
             <p>AI &amp; software focus</p>
           </div>
-
           <div className="photo-orbit">
             <div className="photo-ring" />
             <div className="photo-glow-circle">
               <img src={Photo} alt="Yaram Revanth Kumar" className="hero-photo" />
             </div>
           </div>
-
           <div className="float-card fc-right">
             <i className="fa-solid fa-microchip fc-fa-icon" />
             <h4>AI/ML Intern</h4>
             <p>MedSocio HealthTech</p>
           </div>
-
           <div className="float-card fc-bottom">
             <i className="fa-solid fa-diagram-project fc-fa-icon" />
             <h4>Key Projects</h4>
@@ -215,21 +213,45 @@ function App() {
         <h2 className="section-title">Education</h2>
         <div className="edu-container">
 
+          {/* ── First card with handwritten hint ── */}
           <div className="container edu-hint-wrap">
-            <div className="edu-click-hint">
-              <span className="hint-label">Click&nbsp;me!</span>
-              <svg className="hint-arrow-svg" width="76" height="80"
-                   viewBox="0 0 76 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="edu-arrowhead" markerWidth="10" markerHeight="10"
-                    refX="2" refY="3.5" orient="auto">
-                    <path d="M9,0 L0,3.5 L9,7 Z" fill="#555" />
-                  </marker>
-                </defs>
-                <path className="hint-arrow-path"
-                  d="M 66,6 C 80,26 74,54 50,68 C 36,76 22,72 10,62"
-                  stroke="#555" strokeWidth="2" strokeDasharray="5 4"
-                  strokeLinecap="round" markerEnd="url(#edu-arrowhead)" />
+
+            {/*
+              Handwritten "click on card to explore" hint with a curvy drawn arrow.
+              Matches the reference image: script text + a curving arrow pointing down-left at the card.
+            */}
+            <div className="edu-click-hint" aria-hidden="true">
+              {/* Two-line handwritten text */}
+              <span className="hint-label">click on card</span>
+              <span className="hint-label">to explore!</span>
+
+              {/*
+                Arrow starts top-right (near the text), curves gently,
+                arrowhead points LEFT toward card 1's right edge.
+              */}
+              <svg
+                className="hint-arrow-svg"
+                width="80"
+                height="95"
+                viewBox="0 0 80 95"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Path curves from top-right, sweeps down into the card top */}
+                <path
+                  className="hint-arrow-path"
+                  d="M 70,6 C 80,30 72,58 52,76 C 42,84 32,90 24,90"
+                  stroke="#222"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                />
+                {/* Arrowhead — tip at (24,90), arriving from top-right, pointing left */}
+                <g className="hint-arrowhead">
+                  <line x1="24" y1="90" x2="34" y2="83" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="24" y1="90" x2="30" y2="92" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+                </g>
               </svg>
             </div>
 
@@ -425,7 +447,7 @@ function App() {
       </section>
 
 
-      {/* ══ CONTACT — white background ══ */}
+      {/* ══ CONTACT ══ */}
       <section className="contact-section reveal" id="contact">
         <div className="contact-inner">
           <div className="contact-left">
@@ -465,8 +487,6 @@ function App() {
       {/* ══ FOOTER ══ */}
       <footer className="site-footer-bottom">
         <div className="footer-inner">
-
-          {/* Left: brand + tagline + social */}
           <div className="footer-brand">
             <span className="footer-logo">YRK</span>
             <p className="footer-tagline">
@@ -486,7 +506,6 @@ function App() {
             </div>
           </div>
 
-          {/* Middle: navigation */}
           <div className="footer-col">
             <h5>Navigation</h5>
             <a href="#education">Education</a>
@@ -496,14 +515,12 @@ function App() {
             <a href="#contact">Contact</a>
           </div>
 
-          {/* Right: contact info */}
           <div className="footer-col">
             <h5>Contact</h5>
             <a href="mailto:yrevanthkumar17@gmail.com">yrevanthkumar17@gmail.com</a>
             <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer">GitHub Profile</a>
             <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer">LinkedIn Profile</a>
           </div>
-
         </div>
 
         <div className="footer-divider" />
