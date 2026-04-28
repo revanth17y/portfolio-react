@@ -2,6 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Photo from './Images/Photo.png';
 import AboutImage from './Images/about-me.png';
+import Cert1 from './Images/cert1.jpg';
+import Cert2 from './Images/cert2.jpg';
+import Cert3 from './Images/cert3.jpg';
+import Cert4 from './Images/cert4.jpg';
+import Cert5 from './Images/cert5.jpg';
+import Cert6 from './Images/cert6.jpeg';
+import Cert7 from './Images/cert7.jpeg';
+import Cert8 from './Images/cert8.jpg';
+
+import InterCert from './Images/inter.jpg';
+import SscCert from './Images/ssc.jpg';
 
 const projects = [
   {
@@ -36,6 +47,8 @@ function App() {
   const scrollHintRef = useRef(null);
   const heroRef       = useRef(null);
   const [showHeader, setShowHeader] = useState(false);
+  const [activeCerts, setActiveCerts] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   /* ── Typing end ── */
   useEffect(() => {
@@ -278,7 +291,10 @@ function App() {
             </div>
 
             <div className="edu-card"
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
+                onClick={() => {
+                  setActiveCerts([Cert1, Cert2, Cert3, Cert4, Cert5, Cert6, Cert7, Cert8]);
+                  setCurrentIndex(0);
+                }}>
               <div className="front" style={{ backgroundColor: 'powderblue' }}>
                 <div className="front-content">
                   <h3>B.E. in Computer Science</h3>
@@ -295,7 +311,10 @@ function App() {
 
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
+                onClick={() => {
+                  setActiveCerts([InterCert]);
+                  setCurrentIndex(0);
+                }}>
               <div className="front" style={{ backgroundColor: 'wheat' }}>
                 <div className="front-content">
                   <h3>Intermediate Education</h3>
@@ -312,7 +331,10 @@ function App() {
 
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
+                 onClick={() => {
+                   setActiveCerts([SscCert]);
+                   setCurrentIndex(0);
+                  }}>
               <div className="front" style={{ backgroundColor: 'thistle' }}>
                 <div className="front-content">
                   <h3>Secondary School (SSC)</h3>
@@ -550,6 +572,52 @@ function App() {
           &copy; {new Date().getFullYear()} Yaram Revanth Kumar &mdash; All rights reserved.
         </p>
       </footer>
+
+
+      {activeCerts.length > 0 && (
+      <div className="cert-overlay" onClick={() => setActiveCerts([])}>
+
+        <div 
+          className="cert-modal"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <img src={activeCerts[currentIndex]} alt="Certificate" />
+
+          {/* arrows only if multiple */}
+          {activeCerts.length > 1 && (
+            <>
+              <button 
+                className="cert-nav left"
+                onClick={() =>
+                  setCurrentIndex((prev) =>
+                    prev === 0 ? activeCerts.length - 1 : prev - 1
+                  )
+                }
+              >
+                ‹
+              </button>
+
+              <button 
+                className="cert-nav right"
+                onClick={() =>
+                  setCurrentIndex((prev) =>
+                    prev === activeCerts.length - 1 ? 0 : prev + 1
+                  )
+                }
+              >
+                ›
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="cert-exit-text">
+          click on empty space to exit
+        </div>
+
+      </div>
+    )}
+
 
     </div>
   );
