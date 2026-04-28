@@ -7,8 +7,8 @@ import Cert2 from './Images/cert2.jpg';
 import Cert3 from './Images/cert3.jpg';
 import Cert4 from './Images/cert4.jpg';
 import Cert5 from './Images/cert5.jpg';
-import Cert6 from './Images/cert6.jpeg';
-import Cert7 from './Images/cert7.jpeg';
+import Cert6 from './Images/cert6.jpg';
+import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
 
 import InterCert from './Images/inter.jpg';
