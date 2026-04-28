@@ -51,24 +51,23 @@
 /* ── Handwritten hint animations ── */
 @keyframes hintTextAppear {
   0%   { opacity: 0; transform: translateY(-6px) rotate(-2deg); }
-  20%  { opacity: 1; transform: translateY(0)    rotate(-2deg); }
-  80%  { opacity: 1; transform: translateY(0)    rotate(-2deg); }
-  100% { opacity: 0; transform: translateY(4px)  rotate(-2deg); }
+  15%  { opacity: 1; transform: translateY(0)    rotate(-2deg); }
+  100% { opacity: 1; transform: translateY(0)    rotate(-2deg); }
 }
 @keyframes drawArrow {
-  from { stroke-dashoffset: 320; }
-  to   { stroke-dashoffset: 0;   }
+  0%   { stroke-dashoffset: 320; }
+  100% { stroke-dashoffset: 0;   }
 }
 @keyframes arrowheadPop {
-  0%   { opacity: 0; transform: scale(0) rotate(-10deg); }
-  70%  { opacity: 1; transform: scale(1.2) rotate(2deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  0%   { opacity: 0; transform: scale(0);   }
+  85%  { opacity: 0; transform: scale(0);   }
+  93%  { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1);   }
 }
 @keyframes hintWrapFade {
   0%   { opacity: 0; }
-  10%  { opacity: 1; }
-  78%  { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
+  15%  { opacity: 1; }
+  100% { opacity: 1; }
 }
 
 @keyframes headerSlideDown {
@@ -376,32 +375,32 @@ ul { padding-left: 20px; }
 }
 .edu-hint-wrap { position: relative; overflow: visible; }
 
-/* ── Handwritten hint — floats above the top-right corner of the first card ── */
+/* ── Handwritten hint — floats to the RIGHT of the first card, vertically centred ── */
 .edu-click-hint {
   position: absolute;
-  top: -110px;       /* sits above the card */
-  right: 10px;       /* anchored to the right edge of the card */
-  width: 160px;
+  top: 10%; /* sits in the gap just after card 1 */
+  right: -1010px; /* floats to the right of card 1 */
+  transform: translateY(-80%); /* push it into upper half of the gap */
+  width: 130px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0px;
   z-index: 10;
   pointer-events: none;
-  animation: hintWrapFade 6s ease 1.2s forwards;
+  animation: hintWrapFade 4s ease 1.2s forwards;
 }
 
-/* Handwritten text — uses a cursive Google Font loaded inline */
+/* Handwritten text */
 .hint-label {
   font-family: 'Caveat', 'Dancing Script', 'Segoe Script', cursive;
-  font-size: 1.22rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #222;
   line-height: 1.25;
   display: block;
   margin-left: 2px;
-  /* text slides in first */
-  animation: hintTextAppear 6s ease 1.2s forwards;
+  animation: hintTextAppear 4s ease 1.2s forwards;
   opacity: 0;
   transform: rotate(-2deg);
 }
@@ -410,7 +409,7 @@ ul { padding-left: 20px; }
 .hint-arrow-svg {
   display: block;
   margin-top: 2px;
-  margin-left: 10px;
+  margin-left: 0px;
   overflow: visible;
 }
 
@@ -419,14 +418,14 @@ ul { padding-left: 20px; }
   stroke-dasharray: 320;
   stroke-dashoffset: 320;
   /* draw starts 0.5s after text appears */
-  animation: drawArrow 1.4s cubic-bezier(0.4, 0, 0.2, 1) 2s forwards;
+  animation: drawArrow 4s ease 1.2s forwards;
 }
 
 /* Arrowhead dot/triangle at the tip */
 .hint-arrowhead {
   opacity: 0;
   transform-origin: center;
-  animation: arrowheadPop 0.35s ease 3.3s forwards;
+  animation: arrowheadPop 1.5s ease 1.2s forwards;
 }
 
 
