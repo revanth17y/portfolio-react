@@ -94,6 +94,28 @@ function App() {
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    const section = document.querySelector(".education-section");
+    const hint = document.querySelector(".edu-click-hint");
+
+    if (!section || !hint) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            hint.classList.add("animate");
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   /* ── Edu card 3-D tilt ── */
   useEffect(() => {
     document.querySelectorAll('.edu-card').forEach(card => {

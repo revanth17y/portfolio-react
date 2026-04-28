@@ -388,7 +388,7 @@ ul { padding-left: 20px; }
   gap: 0px;
   z-index: 10;
   pointer-events: none;
-  animation: hintWrapFade 4s ease 1.2s forwards;
+  opacity: 0;
 }
 
 /* Handwritten text */
@@ -400,7 +400,6 @@ ul { padding-left: 20px; }
   line-height: 1.25;
   display: block;
   margin-left: 2px;
-  animation: hintTextAppear 4s ease 1.2s forwards;
   opacity: 0;
   transform: rotate(-2deg);
 }
@@ -418,17 +417,30 @@ ul { padding-left: 20px; }
   stroke-dasharray: 320;
   stroke-dashoffset: 320;
   /* draw starts 0.5s after text appears */
-  animation: drawArrow 4s ease 1.2s forwards;
 }
 
 /* Arrowhead dot/triangle at the tip */
 .hint-arrowhead {
   opacity: 0;
+  color: #222;
   transform-origin: center;
-  animation: arrowheadPop 1.5s ease 1.2s forwards;
 }
 
+.edu-click-hint.animate {
+  animation: hintWrapFade 4s ease 1.2s forwards;
+}
 
+.edu-click-hint.animate .hint-label {
+  animation: hintTextAppear 4s ease 1.2s forwards;
+}
+
+.edu-click-hint.animate .hint-arrow-path {
+  animation: drawArrow 4s ease 1.2s forwards;
+}
+
+.edu-click-hint.animate .hint-arrowhead {
+  animation: arrowheadPop 1.5s ease 1.2s forwards;
+}
 /* ═══════════════════════════════════════════
    EDU CARD (flip)
 ═══════════════════════════════════════════ */
