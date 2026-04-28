@@ -25,10 +25,10 @@ const projects = [
 ];
 
 const certifications = [
-  { name: 'MongoDB Basics',          issuer: 'MongoDB University', icon: 'fa-solid fa-database',   accent: '#4DB33D' },
-  { name: 'Web Development',         issuer: 'CodSoft',            icon: 'fa-solid fa-code',        accent: '#0066FF' },
-  { name: 'Soft Skills Development', issuer: 'NPTEL',              icon: 'fa-solid fa-comments',    accent: '#FF6B35' },
-  { name: 'Programming in Java',     issuer: 'NPTEL',              icon: 'fa-brands fa-java',       accent: '#E76D00' },
+  { name: 'MongoDB Basics',          issuer: 'MongoDB University', icon: 'fa-solid fa-database',  color: '#d4eaf7' },
+  { name: 'Web Development',         issuer: 'CodSoft',            icon: 'fa-solid fa-code',       color: '#fdf3dc' },
+  { name: 'Soft Skills Development', issuer: 'NPTEL',              icon: 'fa-solid fa-comments',   color: '#e8f5e9' },
+  { name: 'Programming in Java',     issuer: 'NPTEL',              icon: 'fa-brands fa-java',      color: '#f3e5f5' },
 ];
 
 function App() {
@@ -127,10 +127,11 @@ function App() {
   return (
     <div>
 
-      {/* ══ HEADER (shown only after scrolling past hero) ══ */}
+      {/* ══ HEADER — white, only after hero ══ */}
       <header className={`site-header ${showHeader ? 'header-visible' : ''}`}>
         <div className="header-inner">
           <span className="header-logo">YRK</span>
+
           <nav className="header-nav">
             <a href="#education">Education</a>
             <a href="#experience">Experience</a>
@@ -138,8 +139,15 @@ function App() {
             <a href="#skills">Skills</a>
             <a href="#contact">Contact</a>
           </nav>
+
+          {/* Resume button — same hover style as social icons */}
+          <a href="/resume.pdf" target="_blank" rel="noreferrer" className="header-resume-btn">
+            <i className="fa-solid fa-file-lines" />
+            <span>Resume</span>
+          </a>
         </div>
       </header>
+
 
       {/* ══ HERO ══ */}
       <section className="hero-section" ref={heroRef}>
@@ -167,14 +175,12 @@ function App() {
         </div>
 
         <div className="hero-right">
-          {/* Left card */}
           <div className="float-card fc-left">
             <i className="fa-solid fa-graduation-cap fc-fa-icon" />
             <h4>CS @ RMKEC&nbsp;'26</h4>
             <p>AI &amp; software focus</p>
           </div>
 
-          {/* Photo */}
           <div className="photo-orbit">
             <div className="photo-ring" />
             <div className="photo-glow-circle">
@@ -182,14 +188,12 @@ function App() {
             </div>
           </div>
 
-          {/* Right card */}
           <div className="float-card fc-right">
             <i className="fa-solid fa-microchip fc-fa-icon" />
             <h4>AI/ML Intern</h4>
             <p>MedSocio HealthTech</p>
           </div>
 
-          {/* Bottom card */}
           <div className="float-card fc-bottom">
             <i className="fa-solid fa-diagram-project fc-fa-icon" />
             <h4>Key Projects</h4>
@@ -211,9 +215,7 @@ function App() {
         <h2 className="section-title">Education</h2>
         <div className="edu-container">
 
-          {/* Card 1 — "Click me!" hint on RIGHT side */}
           <div className="container edu-hint-wrap">
-            {/* Hint: fades out after 5s, positioned right of card */}
             <div className="edu-click-hint">
               <span className="hint-label">Click&nbsp;me!</span>
               <svg className="hint-arrow-svg" width="76" height="80"
@@ -224,15 +226,10 @@ function App() {
                     <path d="M9,0 L0,3.5 L9,7 Z" fill="#555" />
                   </marker>
                 </defs>
-                {/* Curved arrow: starts from hint label area (top-right), loops down-left to card */}
                 <path className="hint-arrow-path"
                   d="M 66,6 C 80,26 74,54 50,68 C 36,76 22,72 10,62"
-                  stroke="#555"
-                  strokeWidth="2"
-                  strokeDasharray="5 4"
-                  strokeLinecap="round"
-                  markerEnd="url(#edu-arrowhead)"
-                />
+                  stroke="#555" strokeWidth="2" strokeDasharray="5 4"
+                  strokeLinecap="round" markerEnd="url(#edu-arrowhead)" />
               </svg>
             </div>
 
@@ -252,10 +249,9 @@ function App() {
             </div>
           </div>
 
-          {/* Card 2 */}
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://drive.google.com/file/d/1FNBB3KoNvNj36d4SIeM45m50IxFOOunq/view?usp=sharing', '_blank')}>
+                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
               <div className="front" style={{ backgroundColor: 'wheat' }}>
                 <div className="front-content">
                   <h3>Intermediate Education</h3>
@@ -270,10 +266,9 @@ function App() {
             </div>
           </div>
 
-          {/* Card 3 */}
           <div className="container">
             <div className="edu-card"
-                 onClick={() => window.open('https://drive.google.com/file/d/12HRL3YaauXlDd_y2MwHcCqLnMAEZgX3H/view?usp=sharing', '_blank')}>
+                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
               <div className="front" style={{ backgroundColor: 'thistle' }}>
                 <div className="front-content">
                   <h3>Secondary School (SSC)</h3>
@@ -367,9 +362,9 @@ function App() {
         <h2 className="section-title">Skills</h2>
         <div className="skills-grid">
           {[
-            { cat: 'Languages',          icon: 'fa-solid fa-terminal',   tags: [ 'Python', 'JavaScript', 'HTML', 'CSS', 'SQL'] },
-            { cat: 'Frameworks & Tools', icon: 'fa-solid fa-toolbox',    tags: ['React', 'Flask', 'OpenCV', 'Git', 'REST APIs', 'SQLite'] },
-            { cat: 'AI / ML',            icon: 'fa-solid fa-brain',      tags: ['TensorFlow', 'Keras', 'MobileNetV2', 'LLMs', 'Transfer Learning'] },
+            { cat: 'Languages',          icon: 'fa-solid fa-terminal',    tags: ['Java', 'Python', 'JavaScript', 'HTML', 'CSS', 'SQL'] },
+            { cat: 'Frameworks & Tools', icon: 'fa-solid fa-toolbox',     tags: ['React', 'Flask', 'OpenCV', 'Git', 'REST APIs', 'SQLite'] },
+            { cat: 'AI / ML',            icon: 'fa-solid fa-brain',       tags: ['TensorFlow', 'Keras', 'MobileNetV2', 'LLMs', 'Transfer Learning'] },
             { cat: 'Other',              icon: 'fa-solid fa-layer-group', tags: ['MongoDB', 'Blockchain', 'Problem Solving', 'Self-Learning'] },
           ].map((group, i) => (
             <div className="skill-group" key={i}>
@@ -394,16 +389,15 @@ function App() {
         <div className="cert-grid">
           {certifications.map((cert, i) => (
             <div className="cert-card" key={i}
-                 style={{ '--accent': cert.accent }}
+                 style={{ backgroundColor: cert.color }}
                  onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
-              <div className="cert-icon-wrap">
-                <i className={cert.icon} />
+              <div className="cert-top">
+                <i className={`${cert.icon} cert-icon`} />
+                <span className="cert-badge">Certified</span>
               </div>
-              <div className="cert-body">
-                <h4>{cert.name}</h4>
-                <p>{cert.issuer}</p>
-              </div>
-              <div className="cert-footer-row">
+              <h4 className="cert-name">{cert.name}</h4>
+              <p className="cert-issuer">{cert.issuer}</p>
+              <div className="cert-footer">
                 <span className="cert-link">
                   View Certificate&nbsp;<i className="fa-solid fa-arrow-up-right-from-square" />
                 </span>
@@ -431,7 +425,7 @@ function App() {
       </section>
 
 
-      {/* ══ CONTACT ══ */}
+      {/* ══ CONTACT — white background ══ */}
       <section className="contact-section reveal" id="contact">
         <div className="contact-inner">
           <div className="contact-left">
@@ -460,7 +454,7 @@ function App() {
             <a href="mailto:yrevanthkumar17@gmail.com" className="contact-btn">
               <i className="fa-solid fa-paper-plane" />&nbsp;Send a Message
             </a>
-            <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer" className="contact-btn-outline">
+            <a href="/resume.pdf" target="_blank" rel="noreferrer" className="contact-btn-outline">
               <i className="fa-solid fa-file-lines" />&nbsp;View Resume
             </a>
           </div>
@@ -471,22 +465,14 @@ function App() {
       {/* ══ FOOTER ══ */}
       <footer className="site-footer-bottom">
         <div className="footer-inner">
+
+          {/* Left: brand + tagline + social */}
           <div className="footer-brand">
             <span className="footer-logo">YRK</span>
-            <p>Yaram Revanth Kumar &mdash; CSE @ RMKEC '26</p>
-          </div>
-
-          <div className="footer-col">
-            <h5>Navigation</h5>
-            <a href="#education">Education</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
-          </div>
-
-          <div className="footer-col">
-            <h5>Follow Me</h5>
+            <p className="footer-tagline">
+              Building intelligent, scalable solutions<br />
+              at the intersection of AI and software.
+            </p>
             <div className="footer-social-icons">
               <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <i className="fa-brands fa-github" />
@@ -499,10 +485,31 @@ function App() {
               </a>
             </div>
           </div>
+
+          {/* Middle: navigation */}
+          <div className="footer-col">
+            <h5>Navigation</h5>
+            <a href="#education">Education</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+          </div>
+
+          {/* Right: contact info */}
+          <div className="footer-col">
+            <h5>Contact</h5>
+            <a href="mailto:yrevanthkumar17@gmail.com">yrevanthkumar17@gmail.com</a>
+            <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer">GitHub Profile</a>
+            <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer">LinkedIn Profile</a>
+          </div>
+
         </div>
 
         <div className="footer-divider" />
-        <p className="footer-copy">&copy; {new Date().getFullYear()} Yaram Revanth Kumar. All rights reserved.</p>
+        <p className="footer-copy">
+          &copy; {new Date().getFullYear()} Yaram Revanth Kumar &mdash; All rights reserved.
+        </p>
       </footer>
 
     </div>
