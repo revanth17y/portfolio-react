@@ -49,6 +49,35 @@ function App() {
   const [showHeader, setShowHeader] = useState(false);
   const [activeCerts, setActiveCerts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState('');
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+
+    const handleScroll = () => {
+      let currentSection = "";
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const sectionMiddle = rect.top + rect.height / 2;
+
+        if (sectionMiddle >= 0 && sectionMiddle <= window.innerHeight) {
+          currentSection = section.id;
+        }
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // run once on load
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   /* ── Typing end ── */
   useEffect(() => {
@@ -172,11 +201,12 @@ function App() {
         <div className="header-inner">
           <span className="header-logo">YRK</span>
           <nav className="header-nav">
-            <a href="#education">Education</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
+            <a href="#education" className={activeSection === "education" ? "active" : ""}>Education</a>
+            <a href="#experience" className={activeSection === "experience" ? "active" : ""}>Experience</a>
+            <a href="#projects" className={activeSection === "projects" ? "active" : ""}>Projects</a>
+            <a href="#skills" className={activeSection === "skills" ? "active" : ""}>Skills</a>
+            <a href="#certifications" className={activeSection === "certifications" ? "active" : ""}>Certificates</a>
+            <a href="#contact" className={activeSection === "contact" ? "active" : ""}>Contact</a>
           </nav>
           <a href="/resume.pdf" target="_blank" rel="noreferrer" className="header-resume-btn">
             <i className="fa-solid fa-file-lines" />
@@ -356,42 +386,78 @@ function App() {
       {/* ══ EXPERIENCE ══ */}
       <section className="experience-section reveal" id="experience">
         <h2 className="section-title">Experience</h2>
-        <div className="timeline">
 
-          <div className="timeline-card left">
-            <h3>AI/ML Engineering Intern — MedSocio HealthTech</h3>
-            <p className="timeline-date">
-              <i className="fa-regular fa-calendar" />&nbsp;June – July 2024
-            </p>
-            <ul>
-              <li>Researched and integrated medical LLMs for healthcare tools.</li>
-              <li>Built a prototype AI recommendation system with backend integration.</li>
-              <li>Worked on data handling, API design, and scalable system architecture.</li>
-            </ul>
-            <button onClick={() => window.open('ssc_certificate.pdf')}>
-              <i className="fa-solid fa-certificate" />&nbsp;Certificate
-            </button>
+        {/* Hover Hint */}
+        <div className="exp-hover-hint">
+          <span>hover cards to explore!</span>
+        </div>
+
+        <div className="timeline horizontal">
+
+          {/* TOP */}
+          <div className="timeline-card top">
+            <div className="card-main">
+              <h3>AI/ML Intern</h3>
+              <p className="company-name">MedSocio HealthTech</p>
+              <p className="date-full">June – July 2024</p>
+              <button><i className="fa-solid fa-certificate" /> Certificate</button>
+            </div>
+
+            <div className="card-extra">
+              <ul>
+                <li>Integrated medical LLMs</li>
+                <li>Built AI recommendation system</li>
+                <li>Worked on APIs & architecture</li>
+              </ul>
+            </div>
+
+            <div className="timeline-year">2024</div>
           </div>
 
-          <div className="timeline-card right">
-            <h3>Web Development Intern — CodSoft</h3>
-            <p className="timeline-date">
-              <i className="fa-regular fa-calendar" />&nbsp;2024
-            </p>
-            <ul>
-              <li>Built responsive web interfaces using HTML, CSS, and JavaScript.</li>
-              <li>Implemented UI/UX best practices for client-facing projects.</li>
-              <li>Collaborated with team on delivery and code reviews.</li>
-            </ul>
-            <button onClick={() => window.open('ssc_certificate.pdf')}>
-              <i className="fa-solid fa-certificate" />&nbsp;Certificate
-            </button>
+
+          {/* BOTTOM */}
+          <div className="timeline-card bottom codsoft">
+            <div className="card-main">
+              <h3>Web Dev Intern</h3>
+              <p className="company-name">CodSoft</p>
+              <p className="date-full">Jan – Feb 2024</p>
+              <button><i className="fa-solid fa-certificate" /> Certificate</button>
+            </div>
+
+            <div className="card-extra">
+              <ul>
+                <li>Responsive UI</li>
+                <li>UX best practices</li>
+                <li>Team collaboration</li>
+              </ul>
+            </div>
+
+            <div className="timeline-year">2024</div>
+          </div>
+
+
+          {/* TOP */}
+          <div className="timeline-card top maincrafts">
+            <div className="card-main">
+              <h3>Data Science Intern</h3>
+              <p className="company-name">Maincrafts Technology</p>
+              <p className="date-full">Feb – Mar 2026</p>
+              <button><i className="fa-solid fa-certificate" /> Certificate</button>
+            </div>
+
+            <div className="card-extra">
+              <ul>
+                <li>Data analysis using Python</li>
+                <li>Worked on real datasets</li>
+                <li>Data preprocessing pipelines</li>
+              </ul>
+            </div>
+
+            <div className="timeline-year">2026</div>
           </div>
 
         </div>
       </section>
-
-
       {/* ══ PROJECTS ══ */}
       <section className="projects-section reveal" id="projects">
         <h2 className="section-title">Projects</h2>
@@ -450,7 +516,7 @@ function App() {
 
 
       {/* ══ CERTIFICATIONS ══ */}
-      <section className="certifications-section reveal">
+      <section className="certifications-section reveal" id="certifications">
         <h2 className="section-title">Certifications</h2>
         <div className="cert-grid">
           {certifications.map((cert, i) => (
@@ -556,6 +622,7 @@ function App() {
             <a href="#experience">Experience</a>
             <a href="#projects">Projects</a>
             <a href="#skills">Skills</a>
+            <a href="#certifications">Certificates</a>
             <a href="#contact">Contact</a>
           </div>
 
