@@ -10,7 +10,6 @@ import Cert5 from './Images/cert5.jpg';
 import Cert6 from './Images/cert6.jpg';
 import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
-
 import InterCert from './Images/inter.jpg';
 import SscCert from './Images/ssc.jpg';
 
@@ -43,9 +42,9 @@ const certifications = [
 ];
 
 function App() {
-  const typingRef     = useRef(null);
+  const typingRef = useRef(null);
   const scrollHintRef = useRef(null);
-  const heroRef       = useRef(null);
+  const heroRef = useRef(null);
   const [showHeader, setShowHeader] = useState(false);
   const [activeCerts, setActiveCerts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,14 +71,11 @@ function App() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    // run once on load
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ── Typing end ── */
   useEffect(() => {
     const typer = typingRef.current;
     if (!typer) return;
@@ -90,7 +86,6 @@ function App() {
     return () => typer.removeEventListener('animationend', handler);
   }, []);
 
-  /* ── Scroll hint fade ── */
   useEffect(() => {
     const hint = scrollHintRef.current;
     if (!hint) return;
@@ -101,7 +96,6 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* ── Header: visible only after hero leaves viewport ── */
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
@@ -113,7 +107,6 @@ function App() {
     return () => obs.disconnect();
   }, []);
 
-  /* ── Generic reveal ── */
   useEffect(() => {
     const els = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver((entries) => {
@@ -126,7 +119,6 @@ function App() {
     return () => obs.disconnect();
   }, []);
 
-  /* ── Timeline reveal ── */
   useEffect(() => {
     const cards = document.querySelectorAll('.timeline-card');
     const obs = new IntersectionObserver((entries) => {
@@ -158,15 +150,36 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  /* ── Edu card 3-D tilt ── */
+  useEffect(() => {
+    const section = document.querySelector(".experience-section");
+    const hint = document.querySelector(".exp-hover-hint");
+
+    if (!section || !hint) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            hint.classList.add("animate");
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     document.querySelectorAll('.edu-card').forEach(card => {
       const front = card.querySelector('.front-content');
-      const back  = card.querySelector('.back-content');
+      const back = card.querySelector('.back-content');
       card.addEventListener('mousemove', (e) => {
-        const r  = card.getBoundingClientRect();
-        const dx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
-        const dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+        const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
         const ry = dx * 10, rx = -dy * 10;
         card.style.transform = `rotateY(${ry}deg) rotateX(${rx}deg)`;
         const tf = `rotateY(${-ry * 2.5}deg) rotateX(${-rx * 2.5}deg)`;
@@ -190,13 +203,11 @@ function App() {
 
   return (
     <div>
-      {/* ── Load Caveat handwriting font from Google Fonts ── */}
       <link
         href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
         rel="stylesheet"
       />
 
-      {/* ══ HEADER ══ */}
       <header className={`site-header ${showHeader ? 'header-visible' : ''}`}>
         <div className="header-inner">
           <span className="header-logo">YRK</span>
@@ -215,8 +226,6 @@ function App() {
         </div>
       </header>
 
-
-      {/* ══ HERO ══ */}
       <section className="hero-section" ref={heroRef}>
         <div className="hero-text">
           <h1>Hi, I'm</h1>
@@ -272,28 +281,13 @@ function App() {
         </div>
       </section>
 
-
-      {/* ══ EDUCATION ══ */}
       <section className="education-section reveal" id="education">
         <h2 className="section-title">Education</h2>
         <div className="edu-container">
-
-          {/* ── First card with handwritten hint ── */}
           <div className="container edu-hint-wrap">
-
-            {/*
-              Handwritten "click on card to explore" hint with a curvy drawn arrow.
-              Matches the reference image: script text + a curving arrow pointing down-left at the card.
-            */}
             <div className="edu-click-hint" aria-hidden="true">
-              {/* Two-line handwritten text */}
               <span className="hint-label">click on card</span>
               <span className="hint-label">to explore!</span>
-
-              {/*
-                Arrow starts top-right (near the text), curves gently,
-                arrowhead points LEFT toward card 1's right edge.
-              */}
               <svg
                 className="hint-arrow-svg"
                 width="80"
@@ -302,7 +296,6 @@ function App() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {/* Path curves from top-right, sweeps down into the card top */}
                 <path
                   className="hint-arrow-path"
                   d="M 70,6 C 80,30 72,58 52,76 C 42,84 32,90 24,90"
@@ -312,7 +305,6 @@ function App() {
                   strokeLinejoin="round"
                   fill="none"
                 />
-                {/* Arrowhead — tip at (24,90), arriving from top-right, pointing left */}
                 <g className="hint-arrowhead">
                   <line x1="24" y1="90" x2="34" y2="83" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
                   <line x1="24" y1="90" x2="30" y2="92" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
@@ -378,91 +370,92 @@ function App() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
-
 
       {/* ══ EXPERIENCE ══ */}
       <section className="experience-section reveal" id="experience">
         <h2 className="section-title">Experience</h2>
 
-        {/* Hover Hint */}
-        <div className="exp-hover-hint">
-          <span>hover cards to explore!</span>
+        {/* Hint — left of card 1, arrow points right toward it */}
+        <div className="exp-hover-hint" aria-hidden="true">
+          <span className="exp-hint-label">hover cards</span>
+          <span className="exp-hint-label">to explore!</span>
+          <svg className="exp-hint-arrow" width="90" height="60"
+               viewBox="0 10 1 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path className="exp-hint-arrow-path"
+              d="M 6,6 C 20,30 40,10 67,30 C 76,38 80,46 82,51"
+              stroke="#222" strokeWidth="2.5" strokeLinecap="round"
+              strokeLinejoin="round" fill="none" />
+            <g className="exp-hint-arrowhead">
+              <line x1="82" y1="52" x2="72" y2="49" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="82" y1="52" x2="80" y2="41" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+            </g>
+          </svg>
         </div>
 
         <div className="timeline horizontal">
 
-          {/* TOP */}
-          <div className="timeline-card top">
+          {/* Card 1 — TOP: expands upward, content always visible at bottom */}
+          <div className="timeline-card top pos1">
             <div className="card-main">
               <h3>AI/ML Intern</h3>
               <p className="company-name">MedSocio HealthTech</p>
               <p className="date-full">June – July 2024</p>
-              <button><i className="fa-solid fa-certificate" /> Certificate</button>
-            </div>
-
-            <div className="card-extra">
+              <button className="cert-button" onClick={() => window.open('ssc_certificate.pdf')}>
+                <i className="fa-solid fa-certificate" /> Certificate
+              </button>
               <ul>
-                <li>Integrated medical LLMs</li>
+                <li>Integrated medical LLMs for healthcare</li>
                 <li>Built AI recommendation system</li>
-                <li>Worked on APIs & architecture</li>
+                <li>Worked on APIs &amp; architecture</li>
               </ul>
             </div>
-
             <div className="timeline-year">2024</div>
           </div>
 
-
-          {/* BOTTOM */}
-          <div className="timeline-card bottom codsoft">
+          {/* Card 2 — BOTTOM: expands downward, content at top */}
+          <div className="timeline-card bottom pos2 codsoft">
             <div className="card-main">
               <h3>Web Dev Intern</h3>
               <p className="company-name">CodSoft</p>
               <p className="date-full">Jan – Feb 2024</p>
-              <button><i className="fa-solid fa-certificate" /> Certificate</button>
-            </div>
-
-            <div className="card-extra">
+              <button className="cert-button" onClick={() => window.open('ssc_certificate.pdf')}>
+                <i className="fa-solid fa-certificate" /> Certificate
+              </button>
               <ul>
-                <li>Responsive UI</li>
-                <li>UX best practices</li>
-                <li>Team collaboration</li>
+                <li>Built responsive UI with HTML, CSS, JS</li>
+                <li>Implemented UX best practices</li>
+                <li>Team collaboration &amp; code reviews</li>
               </ul>
             </div>
-
             <div className="timeline-year">2024</div>
           </div>
 
-
-          {/* TOP */}
-          <div className="timeline-card top maincrafts">
+          {/* Card 3 — TOP: expands upward, content always visible at bottom */}
+          <div className="timeline-card top pos3 maincrafts">
             <div className="card-main">
               <h3>Data Science Intern</h3>
               <p className="company-name">Maincrafts Technology</p>
               <p className="date-full">Feb – Mar 2026</p>
-              <button><i className="fa-solid fa-certificate" /> Certificate</button>
-            </div>
-
-            <div className="card-extra">
+              <button className="cert-button" onClick={() => window.open('ssc_certificate.pdf')}>
+                <i className="fa-solid fa-certificate" /> Certificate
+              </button>
               <ul>
-                <li>Data analysis using Python</li>
-                <li>Worked on real datasets</li>
-                <li>Data preprocessing pipelines</li>
+                <li>Data analysis using Python &amp; pandas</li>
+                <li>Worked on real-world datasets</li>
+                <li>Built preprocessing pipelines</li>
               </ul>
             </div>
-
             <div className="timeline-year">2026</div>
           </div>
 
         </div>
       </section>
-      {/* ══ PROJECTS ══ */}
+
       <section className="projects-section reveal" id="projects">
         <h2 className="section-title">Projects</h2>
         <div className="projects-showcase">
-
           <div className="projects-img-panel">
             <img src={AboutImage} alt="Revanth Kumar" />
             <div className="projects-img-overlay">
@@ -484,12 +477,9 @@ function App() {
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
-
-      {/* ══ SKILLS ══ */}
       <section className="skills-section reveal" id="skills">
         <h2 className="section-title">Skills</h2>
         <div className="skills-grid">
@@ -514,8 +504,6 @@ function App() {
         </div>
       </section>
 
-
-      {/* ══ CERTIFICATIONS ══ */}
       <section className="certifications-section reveal" id="certifications">
         <h2 className="section-title">Certifications</h2>
         <div className="cert-grid">
@@ -539,8 +527,6 @@ function App() {
         </div>
       </section>
 
-
-      {/* ══ CONFERENCES ══ */}
       <section className="conferences-section reveal">
         <h2 className="section-title">Conferences</h2>
         <div className="conf-card">
@@ -556,8 +542,6 @@ function App() {
         </div>
       </section>
 
-
-      {/* ══ CONTACT ══ */}
       <section className="contact-section reveal" id="contact">
         <div className="contact-inner">
           <div className="contact-left">
@@ -593,8 +577,6 @@ function App() {
         </div>
       </section>
 
-
-      {/* ══ FOOTER ══ */}
       <footer className="site-footer-bottom">
         <div className="footer-inner">
           <div className="footer-brand">
@@ -640,52 +622,46 @@ function App() {
         </p>
       </footer>
 
-
       {activeCerts.length > 0 && (
-      <div className="cert-overlay" onClick={() => setActiveCerts([])}>
+        <div className="cert-overlay" onClick={() => setActiveCerts([])}>
+          <div 
+            className="cert-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={activeCerts[currentIndex]} alt="Certificate" />
 
-        <div 
-          className="cert-modal"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <img src={activeCerts[currentIndex]} alt="Certificate" />
+            {activeCerts.length > 1 && (
+              <>
+                <button 
+                  className="cert-nav left"
+                  onClick={() =>
+                    setCurrentIndex((prev) =>
+                      prev === 0 ? activeCerts.length - 1 : prev - 1
+                    )
+                  }
+                >
+                  ‹
+                </button>
 
-          {/* arrows only if multiple */}
-          {activeCerts.length > 1 && (
-            <>
-              <button 
-                className="cert-nav left"
-                onClick={() =>
-                  setCurrentIndex((prev) =>
-                    prev === 0 ? activeCerts.length - 1 : prev - 1
-                  )
-                }
-              >
-                ‹
-              </button>
+                <button 
+                  className="cert-nav right"
+                  onClick={() =>
+                    setCurrentIndex((prev) =>
+                      prev === activeCerts.length - 1 ? 0 : prev + 1
+                    )
+                  }
+                >
+                  ›
+                </button>
+              </>
+            )}
+          </div>
 
-              <button 
-                className="cert-nav right"
-                onClick={() =>
-                  setCurrentIndex((prev) =>
-                    prev === activeCerts.length - 1 ? 0 : prev + 1
-                  )
-                }
-              >
-                ›
-              </button>
-            </>
-          )}
+          <div className="cert-exit-text">
+            click on empty space to exit
+          </div>
         </div>
-
-        <div className="cert-exit-text">
-          click on empty space to exit
-        </div>
-
-      </div>
-    )}
-
-
+      )}
     </div>
   );
 }
