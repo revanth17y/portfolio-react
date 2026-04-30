@@ -388,7 +388,7 @@ function App() {
               stroke="#222" strokeWidth="2.5" strokeLinecap="round"
               strokeLinejoin="round" fill="none" />
             <g className="exp-hint-arrowhead">
-              <line x1="82" y1="52" x2="72" y2="49" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="82" y1="52" x2="70" y2="49" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
               <line x1="82" y1="52" x2="80" y2="41" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
             </g>
           </svg>

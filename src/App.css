@@ -761,7 +761,6 @@ html {
 .cert-nav:hover {
   background: black;
 }
-
 /* ═══════════════════════════════════════════
    EXPERIENCE SECTION
 ═══════════════════════════════════════════ */
@@ -773,8 +772,8 @@ html {
 /* ── Hover hint ── */
 .exp-hover-hint {
   position: absolute;
-  top: 50%;
-  left: 15%;
+  top: 47%;
+  left: 16%;
   transform: translate(-10px, -120px);
   display: flex;
   flex-direction: column;
@@ -821,7 +820,7 @@ html {
 .timeline.horizontal::before {
   content: '';
   position: absolute;
-  top: 70%;
+  top: 65%;
   left: 3%;
   width: 94%;
   height: 3px;
@@ -842,10 +841,11 @@ html {
   position: absolute;
   width: 220px;
   border-radius: 16px;
-  overflow: visible;    /* NEVER clip — content must always show */
+  overflow: visible;
   z-index: 2;
   box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-  transition: box-shadow 0.35s ease, height 0.42s cubic-bezier(0.16,1,0.3,1);
+  transition: box-shadow 0.35s ease,
+              height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* flat solid colours */
@@ -867,7 +867,7 @@ html {
    so static content sits at bottom of card
 ══════════════════════════════════════════ */
 .timeline-card.top {
-  bottom: 40%;              /* bottom edge sits ON the line */
+  bottom: 45%;              /* bottom edge sits ON the line */
   height: 150px;            /* collapsed — enough to show all content */
   display: flex;
   flex-direction: column;
@@ -892,7 +892,7 @@ html {
    Content at top — justify flex-start
 ══════════════════════════════════════════ */
 .timeline-card.bottom {
-  top: 80%;                 /* top edge sits ON the line */
+  top: 75%;                 /* top edge sits ON the line */
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -958,41 +958,45 @@ html {
   background: #333;
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
+} 
 
 /* ── Hidden bullet list — fades in on hover ── */
 .card-main ul {
   width: 100%;
-  margin: 8px 0 0 0;
-  padding: 8px 0 0 0;
+  margin: 2px 0 0 0;
+  padding: 8px 12px 0 12px;
   list-style: none;
   text-align: left;
   border-top: 1.5px solid rgba(0,0,0,0.12);
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease 0.2s, max-height 0.4s ease 0.1s;
+  transition: opacity    0.1s ease 0.2s,
+              max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 }
 
 .timeline-card:hover .card-main ul {
   opacity: 1;
-  max-height: 150px;
+  max-height: 120px;
 }
 
 .card-main li {
-  position: relative;
-  padding-left: 12px;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: #222;
-  line-height: 1.5;
-  margin-bottom: 4px;
+  line-height: 1.4;
+  margin-bottom: 5px;
+  padding-left: 7px;
+  position: relative;
+  white-space: normal;      /* force single line */
+  overflow: hidden;  /* truncate if truly too long */
 }
+
 .card-main li::before {
-  content: '›';
+  content: '•';
   position: absolute;
-  left: 0;
-  color: #555;
-  font-weight: 700;
+  left: 0px;
+  color: rgba(0,0,0,0.4);
+  font-size: 0.7rem;
 }
 
 
@@ -1023,7 +1027,7 @@ html {
 /* BOTTOM card connector: goes from card top UP to the line */
 .timeline-card.bottom::after {
   bottom: 100%;    /* starts at top of card */
-  height: 50px;    /* exactly reaches the line */
+  height: 50px;
 }
 
 /* Dot — centered ON the timeline line */
@@ -1076,7 +1080,6 @@ html {
 .timeline-card.top    .timeline-year { top:    calc(100% + 65px); }
 /* bottom: year appears above the dot (above the line) */
 .timeline-card.bottom .timeline-year { bottom: calc(100% + 65px); }
-
 
 /* ═══════════════════════════════════════════
    PROJECTS SECTION
