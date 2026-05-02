@@ -12,6 +12,7 @@ import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
 import InterCert from './Images/inter.jpg';
 import SscCert from './Images/ssc.jpg';
+import emailjs from '@emailjs/browser';
 
 const projects = [
   {
@@ -45,10 +46,72 @@ function App() {
   const typingRef = useRef(null);
   const scrollHintRef = useRef(null);
   const heroRef = useRef(null);
+  const formRef = useRef(null);
   const [showHeader, setShowHeader] = useState(false);
   const [activeCerts, setActiveCerts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeSection, setActiveSection] = useState('');
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [formStatus, setFormStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle form submission with EmailJS
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus({ type: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: "Yaram Revanth Kumar",
+      };
+
+      const response = await emailjs.send(
+        'service_faf0cus',    // Replace with your EmailJS service ID
+        'template_wage9kb',   // Replace with your EmailJS template ID
+        templateParams,
+        'mF9Hw-2WC6hNzFAXd'
+      );
+
+      if (response.status === 200) {
+        setFormStatus({
+          type: 'success',
+          message: 'Message sent successfully! I\'ll get back to you soon.'
+        });
+        setFormData({ name: '', email: '', message: '' });
+      }
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message: 'Failed to send message. Please try again or email me directly.'
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setFormStatus({ type: '', message: '' });
+      }, 5000);
+    }
+  };
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
@@ -200,7 +263,6 @@ function App() {
   }, []);
 
   const allProjects = [...projects, ...projects];
-
   return (
     <div>
       <link
@@ -210,7 +272,7 @@ function App() {
 
       <header className={`site-header ${showHeader ? 'header-visible' : ''}`}>
         <div className="header-inner">
-          <span className="header-logo">YRK</span>
+          <span className="header-logo"><a href="#hero" style={{ color: "white", textDecoration: "none" }}>YRK</a></span>
           <nav className="header-nav">
             <a href="#education" className={activeSection === "education" ? "active" : ""}>Education</a>
             <a href="#experience" className={activeSection === "experience" ? "active" : ""}>Experience</a>
@@ -226,7 +288,7 @@ function App() {
         </div>
       </header>
 
-      <section className="hero-section" ref={heroRef}>
+      <section className="hero-section" id="hero" ref={heroRef}>
         <div className="hero-text">
           <h1>Hi, I'm</h1>
           <h1><span className="typing" ref={typingRef}>Yaram Revanth Kumar</span></h1>
@@ -323,11 +385,6 @@ function App() {
                   <p>R.M.K. Engineering College, Tiruvallur<br />2022 – 2026&nbsp;·&nbsp;CGPA: 7.86</p>
                 </div>
               </div>
-              <div className="back">
-                <div className="back-content">
-                  <p>Specialization in AI &amp; Software Development</p>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -343,11 +400,6 @@ function App() {
                   <p>Narayana Junior College, Nellore<br />2020 – 2022&nbsp;·&nbsp;75.70%</p>
                 </div>
               </div>
-              <div className="back">
-                <div className="back-content">
-                  <p>Board of Intermediate Education, Andhra Pradesh</p>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -361,11 +413,6 @@ function App() {
                 <div className="front-content">
                   <h3>Secondary School (SSC)</h3>
                   <p>Ratnam High School, Nellore<br />2019 – 2020&nbsp;·&nbsp;97.67%</p>
-                </div>
-              </div>
-              <div className="back">
-                <div className="back-content">
-                  <p>Board of Secondary Education, Andhra Pradesh</p>
                 </div>
               </div>
             </div>
@@ -444,7 +491,7 @@ function App() {
               <ul>
                 <li>Data analysis using Python &amp; pandas</li>
                 <li>Worked on real-world datasets</li>
-                <li>Built preprocessing pipelines</li>
+                <li>Built &amp; optimized preprocessing pipelines</li>
               </ul>
             </div>
             <div className="timeline-year">2026</div>
@@ -542,85 +589,126 @@ function App() {
         </div>
       </section>
 
+      
       <section className="contact-section reveal" id="contact">
-        <div className="contact-inner">
-          <div className="contact-left">
-            <h2 className="contact-title">Let's Connect</h2>
-            <p className="contact-sub">
-              Open to internships, collaborations, and exciting opportunities.
-              Feel free to reach out — I'd love to hear from you.
-            </p>
-            <div className="contact-links">
-              <a href="mailto:yrevanthkumar17@gmail.com" className="contact-link-item">
+        <div className="contact-floating-shapes">
+          <div className="floating-shape shape-1"></div>
+          <div className="floating-shape shape-2"></div>
+          <div className="floating-shape shape-3"></div>
+        </div>
+
+        <div style={{ textAlign: 'center', marginBottom: '60px', position: 'relative', zIndex: 2 }}>
+          <div className="contact-badge">Open for Immediate Joining</div>
+          <h2 className="contact-title">Let's Work Together</h2>
+          <p className="contact-subtitle">
+            I'm always open to discussing new projects, opportunities, and
+            challenging ideas. Let's build something amazing!
+          </p>
+        </div>
+
+        <div className="contact-container">
+          <div className="contact-info-section">
+            <h3 className="section-header">Get in Touch</h3>
+
+            <div className="contact-info-item">
+              <div className="contact-icon">
                 <i className="fa-solid fa-envelope" />
-                <span>yrevanthkumar17@gmail.com</span>
-              </a>
-              <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer" className="contact-link-item">
-                <i className="fa-brands fa-github" />
-                <span>github.com/revanth17y</span>
-              </a>
-              <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer" className="contact-link-item">
-                <i className="fa-brands fa-linkedin" />
-                <span>linkedin.com/in/yaram-revanth-kumar</span>
-              </a>
+              </div>
+              <div className="contact-details">
+                <h4>Email</h4>
+                <p>yrevanthkumar17@gmail.com</p>
+              </div>
+            </div>
+
+            <div className="contact-info-item">
+              <div className="contact-icon">
+                <i className="fa-solid fa-location-dot" />
+              </div>
+              <div className="contact-details">
+                <h4>Location</h4>
+                <p>Nellore, India</p>
+              </div>
             </div>
           </div>
 
-          <div className="contact-right">
-            <a href="mailto:yrevanthkumar17@gmail.com" className="contact-btn">
-              <i className="fa-solid fa-paper-plane" />&nbsp;Send a Message
-            </a>
-            <a href="/resume.pdf" target="_blank" rel="noreferrer" className="contact-btn-outline">
-              <i className="fa-solid fa-file-lines" />&nbsp;View Resume
-            </a>
+          <div className="contact-form-section">
+            <form className="contact-form" onSubmit={handleSubmit} ref={formRef}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div className="form-group">
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                ></textarea>
+              </div>
+              <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <i className="fa-solid fa-spinner fa-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-paper-plane" />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+
+              {formStatus.message && (
+                <div className={`form-status ${formStatus.type}`}>
+                  {formStatus.message}
+                </div>
+              )}
+            </form>
           </div>
         </div>
       </section>
 
-      <footer className="site-footer-bottom">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <span className="footer-logo">YRK</span>
-            <p className="footer-tagline">
-              Building intelligent, scalable solutions<br />
-              at the intersection of AI and software.
-            </p>
-            <div className="footer-social-icons">
-              <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <i className="fa-brands fa-github" />
-              </a>
-              <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <i className="fa-brands fa-linkedin" />
-              </a>
-              <a href="mailto:yrevanthkumar17@gmail.com" aria-label="Email">
-                <i className="fa-solid fa-envelope" />
-              </a>
-            </div>
-          </div>
-
-          <div className="footer-col">
-            <h5>Navigation</h5>
-            <a href="#education">Education</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#certifications">Certificates</a>
-            <a href="#contact">Contact</a>
-          </div>
-
-          <div className="footer-col">
-            <h5>Contact</h5>
-            <a href="mailto:yrevanthkumar17@gmail.com">yrevanthkumar17@gmail.com</a>
-            <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer">GitHub Profile</a>
-            <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer">LinkedIn Profile</a>
+      <footer className="site-footer">
+        <div className="footer-content">
+          <p className="footer-copy">
+            © {new Date().getFullYear()} Yaram Revanth Kumar — All rights reserved.
+          </p>
+          <div className="footer-social">
+            <a href="https://www.linkedin.com/in/yaram-revanth-kumar/" target="_blank" rel="noreferrer">
+              <i className="fa-brands fa-linkedin" />
+            </a>
+            <a href="https://github.com/revanth17y/" target="_blank" rel="noreferrer">
+              <i className="fa-brands fa-github" />
+            </a>
+            <a href="mailto:yrevanthkumar17@gmail.com">
+              <i className="fa-solid fa-envelope" />
+            </a>
           </div>
         </div>
-
-        <div className="footer-divider" />
-        <p className="footer-copy">
-          &copy; {new Date().getFullYear()} Yaram Revanth Kumar &mdash; All rights reserved.
-        </p>
       </footer>
+
+
 
       {activeCerts.length > 0 && (
         <div className="cert-overlay" onClick={() => setActiveCerts([])}>
