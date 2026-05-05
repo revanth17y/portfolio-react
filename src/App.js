@@ -18,20 +18,20 @@ const projects = [
   {
     title: 'Brain Tumor Detection',
     desc: 'MobileNetV2 & transfer learning on MRI scans. Achieved 94% accuracy with real-time classification.',
-    color: '#d4eaf7',
-    link: 'https://github.com/revanth17y/Brain-Tumour-Detection-Using-Deep-learning',
+    color: '#c0e2f6',
+    link: 'https://github.com/revanth17y/Brain-Tumor-Prediction-App',
   },
   {
     title: 'Live Face Attendance System',
     desc: 'Flask & OpenCV powered real-time face recognition with SQLite attendance logging.',
-    color: '#fdf3dc',
+    color: '#f2dfb3',
     link: 'https://github.com/revanth17y/Live_Attendance_System',
   },
   {
     title: 'Blockchain Credential Verification',
     desc: 'Decentralized system for issuing and verifying academic credentials on blockchain.',
-    color: '#e8f5e9',
-    link: 'https://github.com/revanth17y/',
+    color: '#c5eac8',
+    link: 'https://github.com/revanth17y/secure-certificate-verification-system/',
   },
 ];
 
@@ -446,24 +446,6 @@ function App() {
           {/* Card 1 — TOP: expands upward, content always visible at bottom */}
           <div className="timeline-card top pos1">
             <div className="card-main">
-              <h3>AI/ML Intern</h3>
-              <p className="company-name">MedSocio HealthTech</p>
-              <p className="date-full">June – July 2024</p>
-              <button className="cert-button" onClick={() => window.open('ssc_certificate.pdf')}>
-                <i className="fa-solid fa-certificate" /> Certificate
-              </button>
-              <ul>
-                <li>Integrated medical LLMs for healthcare</li>
-                <li>Built AI recommendation system</li>
-                <li>Worked on APIs &amp; architecture</li>
-              </ul>
-            </div>
-            <div className="timeline-year">2024</div>
-          </div>
-
-          {/* Card 2 — BOTTOM: expands downward, content at top */}
-          <div className="timeline-card bottom pos2 codsoft">
-            <div className="card-main">
               <h3>Web Dev Intern</h3>
               <p className="company-name">CodSoft</p>
               <p className="date-full">Jan – Feb 2024</p>
@@ -474,6 +456,24 @@ function App() {
                 <li>Built responsive UI with HTML, CSS, JS</li>
                 <li>Implemented UX best practices</li>
                 <li>Team collaboration &amp; code reviews</li>
+              </ul>
+            </div>
+            <div className="timeline-year">2024</div>
+          </div>
+
+          {/* Card 2 — BOTTOM: expands downward, content at top */}
+          <div className="timeline-card bottom pos2 codsoft">
+            <div className="card-main">
+              <h3>AI/ML Intern</h3>
+              <p className="company-name">MedSocio HealthTech</p>
+              <p className="date-full">June – July 2024</p>
+              <button className="cert-button" onClick={() => window.open('ssc_certificate.pdf')}>
+                <i className="fa-solid fa-certificate" /> Certificate
+              </button>
+              <ul>
+                <li>Integrated medical LLMs for healthcare</li>
+                <li>Built AI recommendation system</li>
+                <li>Worked on APIs &amp; architecture</li>
               </ul>
             </div>
             <div className="timeline-year">2024</div>
