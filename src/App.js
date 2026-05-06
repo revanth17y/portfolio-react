@@ -11,6 +11,7 @@ import Cert6 from './Images/cert6.jpg';
 import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
 import InterCert from './Images/inter.jpg';
+import cloud from './Images/wind-cloud.jpg';
 import SscCert from './Images/ssc.jpg';
 import emailjs from '@emailjs/browser';
 
@@ -261,6 +262,378 @@ function App() {
       });
     });
   }, []);
+  
+useEffect(() => {
+
+  const cols = document.querySelectorAll(
+    '.skills-hang-col'
+  );
+
+  if (!cols.length) return;
+
+  // =========================
+  // SVG ROPES
+  // =========================
+
+  const svg =
+    document.getElementById(
+      'skillsSvg'
+    );
+
+  const section =
+    document.querySelector(
+      '.skills-section'
+    );
+
+  const row =
+    document.querySelector(
+      '.skills-hang-row'
+    );
+
+  svg.innerHTML = '';
+
+  const ropes = [];
+
+  cols.forEach(() => {
+
+    const path =
+      document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'path'
+      );
+
+    path.setAttribute(
+      'fill',
+      'none'
+    );
+
+    path.setAttribute(
+      'stroke',
+      '#b8c4d6'
+    );
+
+    path.setAttribute(
+      'stroke-width',
+      '2'
+    );
+
+    path.setAttribute(
+      'stroke-linecap',
+      'round'
+    );
+
+    path.setAttribute(
+      'opacity',
+      '0.92'
+    );
+
+    svg.appendChild(path);
+
+    ropes.push(path);
+
+  });
+
+  // =========================
+  // RESIZE SVG
+  // =========================
+
+  function resizeSvg(){
+
+    const rect =
+      section.getBoundingClientRect();
+
+    svg.setAttribute(
+      'width',
+      rect.width
+    );
+
+    svg.setAttribute(
+      'height',
+      rect.height
+    );
+
+  }
+
+  resizeSvg();
+
+  window.addEventListener(
+    'resize',
+    resizeSvg
+  );
+
+  // =========================
+  // PHYSICS
+  // =========================
+
+  const physics = [];
+
+  cols.forEach((col) => {
+
+    physics.push({
+
+      el: col,
+
+      rotation: 0,
+
+      velocity: 0,
+
+      acceleration: 0,
+
+      target: 0,
+
+    });
+
+  });
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  // =========================
+  // CURSOR INTERACTION
+  // =========================
+
+  function handleMouseMove(e){
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    physics.forEach((item) => {
+
+      const rect =
+        item.el.getBoundingClientRect();
+
+      const cx =
+        rect.left +
+        rect.width / 2;
+
+      const cy =
+        rect.top +
+        rect.height / 3;
+
+      const dx =
+        mouseX - cx;
+
+      const dy =
+        mouseY - cy;
+
+      const dist =
+        Math.sqrt(
+          dx * dx + dy * dy
+        );
+
+      const radius = 220;
+
+      if(dist < radius){
+
+        const strength =
+          1 - dist / radius;
+
+        const force =
+          dx * 0.12 * strength;
+
+        item.target += force;
+
+      }
+
+    });
+
+  }
+
+  window.addEventListener(
+    'mousemove',
+    handleMouseMove
+  );
+
+  // =========================
+  // ANIMATION LOOP
+  // =========================
+
+  let raf;
+
+  function animate(){
+
+    const time =
+      Date.now() * 0.001;
+
+    physics.forEach((item, index) => {
+
+      // =====================
+      // IDLE BREEZE
+      // =====================
+
+      const breeze =
+        Math.sin(
+          time * 1.4 +
+          index * 1.8
+        ) * 1.4;
+
+      // =====================
+      // SPRING BACK
+      // =====================
+
+      item.acceleration =
+        (0 - item.rotation) * 0.04;
+
+      item.velocity +=
+        item.acceleration;
+
+      // =====================
+      // CURSOR IMPULSE
+      // =====================
+
+      item.velocity +=
+        item.target * 0.02;
+
+      // =====================
+      // IDLE WIND FORCE
+      // =====================
+
+      item.velocity +=
+        breeze * 0.055;
+
+      // =====================
+      // DAMPING
+      // =====================
+
+      item.velocity *= 0.92;
+
+      // =====================
+      // UPDATE ROTATION
+      // =====================
+
+      item.rotation +=
+        item.velocity;
+
+      // =====================
+      // DECAY FORCE
+      // =====================
+
+      item.target *= 0.82;
+
+      // =====================
+      // CLAMP
+      // =====================
+
+      item.rotation = Math.max(
+        -14,
+        Math.min(14, item.rotation)
+      );
+
+      // =====================
+      // APPLY MOTION
+      // =====================
+
+      item.el.style.transform = `
+        rotate(${item.rotation}deg)
+      `;
+
+      // =====================
+      // SVG ROPE UPDATE
+      // =====================
+
+      const secRect =
+        section.getBoundingClientRect();
+
+      const rowRect =
+        row.getBoundingClientRect();
+
+      const rect =
+        item.el.getBoundingClientRect();
+
+      // TOP ANCHOR
+
+      const anchorX =
+        rect.left +
+        rect.width / 2 -
+        secRect.left;
+
+      const anchorY =
+        rowRect.top -
+        secRect.top -
+        100;
+
+      // CARD CONNECTION
+
+      const endX =
+        rect.left +
+        rect.width / 2 -
+        secRect.left;
+
+      const endY =
+        rect.top -
+        secRect.top;
+
+      // CURVE
+
+      const curveX =
+        anchorX +
+        item.rotation * 1.2;
+
+      const curveY =
+        anchorY +
+        30 +
+        Math.abs(item.rotation) * 0.4;
+
+      ropes[index].setAttribute(
+        'd',
+        `
+        M ${anchorX} ${anchorY}
+        Q ${curveX} ${curveY}
+        ${endX} ${endY}
+      `
+      );
+
+      // =====================
+      // TAG DELAY EFFECT
+      // =====================
+
+      const wraps =
+        item.el.querySelectorAll(
+          '.skills-tag-wrap'
+        );
+
+      wraps.forEach((wrap, idx) => {
+
+        const lag =
+          item.rotation *
+          (idx + 1) *
+          0.9;
+
+        wrap.style.transform = `
+          rotate(${lag * 0.22}deg)
+          translateX(${lag * 0.55}px)
+        `;
+
+      });
+
+    });
+
+    raf =
+      requestAnimationFrame(
+        animate
+      );
+
+  }
+
+  animate();
+
+  return () => {
+
+    cancelAnimationFrame(raf);
+
+    window.removeEventListener(
+      'mousemove',
+      handleMouseMove
+    );
+
+    window.removeEventListener(
+      'resize',
+      resizeSvg
+    );
+
+  };
+
+}, []);
 
   const allProjects = [...projects, ...projects];
   return (
@@ -527,29 +900,249 @@ function App() {
         </div>
       </section>
 
-      <section className="skills-section reveal" id="skills">
-        <h2 className="section-title">Skills</h2>
-        <div className="skills-grid">
-          {[
-            { cat: 'Languages',          icon: 'fa-solid fa-terminal',    tags: ['Java', 'Python', 'JavaScript', 'HTML', 'CSS', 'SQL'] },
-            { cat: 'Frameworks & Tools', icon: 'fa-solid fa-toolbox',     tags: ['React', 'Flask', 'OpenCV', 'Git', 'REST APIs', 'SQLite'] },
-            { cat: 'AI / ML',            icon: 'fa-solid fa-brain',       tags: ['TensorFlow', 'Keras', 'MobileNetV2', 'LLMs', 'Transfer Learning'] },
-            { cat: 'Other',              icon: 'fa-solid fa-layer-group', tags: ['MongoDB', 'Blockchain', 'Problem Solving', 'Self-Learning'] },
-          ].map((group, i) => (
-            <div className="skill-group" key={i}>
-              <div className="skill-cat-row">
-                <i className={group.icon} />
-                <h4 className="skill-cat">{group.cat}</h4>
-              </div>
-              <div className="skill-tags">
-                {group.tags.map((tag, j) => (
-                  <span className="skill-tag" key={j}>{tag}</span>
-                ))}
-              </div>
+
+<section className="skills-section reveal" id="skills">
+
+  <div className="skills-tree-container">
+
+    <img
+      src={cloud}
+      alt="wind"
+      className="skills-wind-cloud"
+    />
+    
+    <div className="skills-breeze-bg">
+
+    <div className="breeze breeze-1"></div>
+    <div className="breeze breeze-2"></div>
+    <div className="breeze breeze-3"></div>
+
+    <div className="dust dust-1"></div>
+    <div className="dust dust-2"></div>
+    <div className="dust dust-3"></div>
+    <div className="dust dust-4"></div>
+
+  </div>
+
+    <h2 className="section-title">
+      Skills
+    </h2>
+
+    {/* ROOT NODE */}
+
+    <div className="skills-root-wrap">
+
+      <div className="skills-root-node">
+        MY SKILLS
+      </div>
+
+    </div>
+
+    {/* SVG ROPE LAYER */}
+
+    <svg
+      className="skills-svg-layer"
+      id="skillsSvg"
+    ></svg>
+
+    {/* HANGING ROW */}
+
+    <div className="skills-hang-row">
+
+      {[
+        {
+          icon: 'fa-solid fa-code',
+
+          cat: 'Languages',
+
+          bg: '#dbeafe',
+
+          headerBg: '#1e40af',
+
+          tagBg: '#eff6ff',
+
+          tagBorder: '#bfdbfe',
+
+          tagColor: '#1e40af',
+
+          tags: [
+            'Python',
+            'HTML',
+            'CSS',
+            'SQL',
+          ],
+        },
+
+        {
+          icon: 'fa-solid fa-cubes',
+
+          cat: 'Lib & Frameworks',
+
+          bg: '#fef9c3',
+
+          headerBg: '#854d0e',
+
+          tagBg: '#fefce8',
+
+          tagBorder: '#fde68a',
+
+          tagColor: '#854d0e',
+
+          tags: [
+            'React',
+            'NumPy',
+            'Pandas',
+            'Matplotlib',
+          ],
+        },
+
+        {
+          icon: 'fa-solid fa-database',
+
+          cat: 'Databases',
+
+          bg: '#dcfce7',
+
+          headerBg: '#14532d',
+
+          tagBg: '#f0fdf4',
+
+          tagBorder: '#bbf7d0',
+
+          tagColor: '#14532d',
+
+          tags: [
+            'MongoDB',
+            'MySQL',
+          ],
+        },
+
+        {
+          icon:
+            'fa-solid fa-screwdriver-wrench',
+
+          cat: 'Tools',
+
+          bg: '#f3e8ff',
+
+          headerBg: '#581c87',
+
+          tagBg: '#faf5ff',
+
+          tagBorder: '#e9d5ff',
+
+          tagColor: '#581c87',
+
+          tags: [
+            'Git / GitHub',
+            'Postman',
+            'VS Code',
+            'Google Colab',
+          ],
+        },
+
+      ].map((group, i) => (
+
+        <div
+          className="skills-hang-col"
+          key={i}
+        >
+
+          {/* MAIN HANGING ROPE */}
+
+          <div className="skills-main-rope"></div>
+
+          {/* CATEGORY CARD */}
+
+          <div
+            className="skills-cat-box"
+            style={{
+              background: group.bg,
+              borderColor:
+                group.tagBorder,
+            }}
+          >
+
+            {/* ICON */}
+
+            <div
+              className="skills-cat-icon-wrap"
+              style={{
+                background:
+                  group.headerBg,
+              }}
+            >
+
+              <i
+                className={`${group.icon} skills-cat-icon`}
+              />
+
             </div>
-          ))}
+
+            {/* TITLE */}
+
+            <p
+              className="skills-cat-name"
+              style={{
+                color:
+                  group.headerBg,
+              }}
+            >
+              {group.cat}
+            </p>
+
+          </div>
+
+          {/* TAGS */}
+
+          <div className="skills-tags-chain">
+
+            {group.tags.map((tag, j) => (
+
+              <div
+                className="skills-tag-wrap"
+                key={j}
+              >
+
+                {/* SMALL ROPE */}
+
+                <div className="skills-tag-rope"></div>
+
+                <span
+                  className="skills-tag-chip"
+                  style={{
+                    background:
+                      group.tagBg,
+
+                    borderColor:
+                      group.tagBorder,
+
+                    color:
+                      group.tagColor,
+
+                    '--hover-bg':
+                      group.headerBg,
+                  }}
+                >
+                  {tag}
+                </span>
+
+              </div>
+
+            ))}
+
+          </div>
+
         </div>
-      </section>
+
+      ))}
+
+    </div>
+
+  </div>
+
+</section>
+
 
       <section className="certifications-section reveal" id="certifications">
         <h2 className="section-title">Certifications</h2>
