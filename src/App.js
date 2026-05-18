@@ -800,7 +800,6 @@ useEffect(() => {
         {/* Hint — left of card 1, arrow points right toward it */}
         <div className="exp-hover-hint" aria-hidden="true">
           <span className="exp-hint-label">hover cards</span>
-          <span className="exp-hint-label">to explore!</span>
           <svg className="exp-hint-arrow" width="90" height="60"
                viewBox="0 10 1 70" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path className="exp-hint-arrow-path"
