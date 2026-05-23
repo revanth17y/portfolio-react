@@ -37,10 +37,50 @@ const projects = [
 ];
 
 const certifications = [
-  { name: 'MongoDB Basics',          issuer: 'MongoDB University', icon: 'fa-solid fa-database',  color: '#d4eaf7' },
-  { name: 'Web Development',         issuer: 'CodSoft',            icon: 'fa-solid fa-code',       color: '#fdf3dc' },
-  { name: 'Soft Skills Development', issuer: 'NPTEL',              icon: 'fa-solid fa-comments',   color: '#e8f5e9' },
-  { name: 'Programming in Java',     issuer: 'NPTEL',              icon: 'fa-brands fa-java',      color: '#f3e5f5' },
+  {
+    name: 'MongoDB Basics',
+    issuer: 'MongoDB University',
+    icon: 'fa-solid fa-database',
+    gradient: 'linear-gradient(145deg,#c7e6ff)',
+    desc: 'Learned CRUD operations, aggregation pipelines & schemas.',
+    image: Cert1,
+  },
+
+  {
+    name: 'Web Development',
+    issuer: 'CodSoft',
+    icon: 'fa-solid fa-code',
+    gradient: 'linear-gradient(145deg,#ffe8ba)',
+    desc: 'Built responsive frontend interfaces and interactive applications.',
+    image: Cert2,
+  },
+
+  {
+    name: 'Soft Skills Development',
+    issuer: 'NPTEL',
+    icon: 'fa-solid fa-comments',
+    gradient: 'linear-gradient(145deg,#d8f0da)',
+    desc: 'Improved communication, leadership and collaboration skills.',
+    image: Cert3,
+  },
+
+  {
+    name: 'Programming in Java',
+    issuer: 'NPTEL',
+    icon: 'fa-brands fa-java',
+    gradient: 'linear-gradient(145deg,#eddcf8)',
+    desc: 'Covered OOP concepts, collections and exception handling.',
+    image: Cert4,
+  },
+
+  {
+    name: 'Programming in Java',
+    issuer: 'NPTEL',
+    icon: 'fa-brands fa-java',
+    gradient: 'linear-gradient(145deg, #ffd6dc)',
+    desc: 'Covered OOP concepts, collections and exception handling.',
+    image: Cert4,
+  },
 ];
 
 function App() {
@@ -52,6 +92,24 @@ function App() {
   const [activeCerts, setActiveCerts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeSection, setActiveSection] = useState('');
+  const [activeCert, setActiveCert] = useState(0);
+
+const nextCert = () => {
+  setActiveCert((prev) =>
+    prev === certifications.length - 1 ? 0 : prev + 1
+  );
+};
+
+const prevCert = () => {
+  setActiveCert((prev) =>
+    prev === 0 ? certifications.length - 1 : prev - 1
+  );
+};
+
+const openCertificate = (img) => {
+  setActiveCerts([img]);
+  setCurrentIndex(0);
+};
   
   // Form state
   const [formData, setFormData] = useState({
@@ -1143,28 +1201,196 @@ useEffect(() => {
 </section>
 
 
-      <section className="certifications-section reveal" id="certifications">
-        <h2 className="section-title">Certifications</h2>
-        <div className="cert-grid">
-          {certifications.map((cert, i) => (
-            <div className="cert-card" key={i}
-                 style={{ backgroundColor: cert.color }}
-                 onClick={() => window.open('https://github.com/revanth17y/', '_blank')}>
-              <div className="cert-top">
-                <i className={`${cert.icon} cert-icon`} />
-                <span className="cert-badge">Certified</span>
+<section
+  className="certifications-section reveal"
+  id="certifications"
+>
+
+  {/* TITLE */}
+
+
+  <h2 className="section-title">
+    Certifications
+  </h2>
+
+  {/* STAGE */}
+
+  <div className="cert-stage">
+
+    {/* LEFT CLICK AREA */}
+
+    <div
+      className="cert-side-click left"
+      onClick={prevCert}
+    />
+
+    {/* RIGHT CLICK AREA */}
+
+    <div
+      className="cert-side-click right"
+      onClick={nextCert}
+    />
+
+    {/* STACK */}
+
+    <div className="cert-stack">
+
+      {certifications.map((cert, index) => {
+
+        const total = certifications.length;
+
+        let diff = index - activeCert;
+
+        if (diff < -Math.floor(total / 2))
+          diff += total;
+
+        if (diff > Math.floor(total / 2))
+          diff -= total;
+
+        const abs = Math.abs(diff);
+
+        const isActive = diff === 0;
+
+        return (
+
+          <div
+            key={index}
+
+            className={`premium-cert-card ${
+              isActive ? 'active' : ''
+            }`}
+
+            style={{
+
+              background: cert.gradient,
+
+              zIndex: total - abs,
+
+              transform: `
+                translateX(${diff * 120}px)
+                translateY(${abs * 16}px)
+                scale(${1 - abs * 0.07})
+                rotate(${diff * 5}deg)
+              `,
+
+              opacity: abs > 3 ? 0 : 1,
+
+            }}
+
+            onClick={() => {
+
+              if (!isActive) {
+                setActiveCert(index);
+              }
+
+            }}
+          >
+
+            {/* INNER */}
+
+            <div className="card-float-inner">
+
+              {/* TOP */}
+
+              <div className="premium-top">
+
+                <div className="premium-icon-wrap">
+
+                  <i className={`${cert.icon} cert-icon`} />
+
+                </div>
+
+                <div className="premium-badge">
+                  Certified
+                </div>
+
               </div>
-              <h4 className="cert-name">{cert.name}</h4>
-              <p className="cert-issuer">{cert.issuer}</p>
-              <div className="cert-footer">
-                <span className="cert-link">
-                  View Certificate&nbsp;<i className="fa-solid fa-arrow-up-right-from-square" />
+
+              {/* CONTENT */}
+
+              <div className="premium-content">
+
+                <h3>
+                  {cert.name}
+                </h3>
+
+                <p className="premium-issuer">
+                  {cert.issuer}
+                </p>
+
+                <div className="premium-line"></div>
+
+                <p className="premium-desc">
+                  {cert.desc}
+                </p>
+
+              </div>
+
+              {/* FOOTER */}
+
+              <div className="premium-footer">
+
+                <span className="premium-date">
+
+                  <i className="fa-regular fa-calendar" />
+
+                  Issued · 2025
+
                 </span>
+
+                <button
+                  className="view-cert-btn"
+                  onClick={(e) => {
+
+                    e.stopPropagation();
+
+                    openCertificate(cert.image);
+
+                  }}
+                >
+
+                  <span>
+                    View Certificate
+                  </span>
+
+                  <i className="fa-solid fa-arrow-up-right-from-square" />
+
+                </button>
+
               </div>
+
             </div>
-          ))}
-        </div>
-      </section>
+
+          </div>
+
+        );
+
+      })}
+
+    </div>
+
+  </div>
+
+  {/* DOTS */}
+
+  <div className="cert-pagination">
+
+    {certifications.map((_, i) => (
+
+      <span
+        key={i}
+        className={`cert-dot ${
+          i === activeCert
+            ? 'active'
+            : ''
+        }`}
+      />
+
+    ))}
+
+  </div>
+
+</section>
 
       <section className="conferences-section reveal">
         <h2 className="section-title">Conferences</h2>
