@@ -11,9 +11,31 @@ import Cert6 from './Images/cert6.jpg';
 import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
 import InterCert from './Images/inter.jpg';
-import cloud from './Images/wind-cloud.jpg';
 import SscCert from './Images/ssc.jpg';
+import BadmintonCert from "./Images/Badminton_2024.bmp";
+import badminton2024 from "./Images/2024.png";
+import badminton2025 from "./Images/2025.png";
+import tableTennis from "./Images/2023.png";
 import emailjs from '@emailjs/browser';
+
+const sports = [
+
+  {
+    sport: "Badminton",
+    image: badminton2024,
+  },
+
+  {
+    sport: "Badminton",
+    image: badminton2025,
+  },
+
+  {
+    sport: "Table Tennis",
+    image: tableTennis,
+  },
+
+];
 
 const projects = [
   {
@@ -94,6 +116,225 @@ function App() {
   const [activeSection, setActiveSection] = useState('');
   const [activeCert, setActiveCert] = useState(0);
 
+// ================= SPORTS =================
+
+const boardRef = useRef(null);
+
+const dragging = useRef(false);
+
+const dragIndex = useRef(null);
+
+const hasDragged = useRef(false);
+
+const offset = useRef({
+  x: 0,
+  y: 0,
+});
+
+const highestZ = useRef(10);
+
+const [sportCards, setSportCards] = useState([
+
+  {
+    x: 120,
+    y: 25,
+    rotation: -7,
+    z: 3,
+  },
+
+  {
+    x: 155,
+    y: 45,
+    rotation: 2,
+    z: 2,
+  },
+
+  {
+    x: 190,
+    y: 65,
+    rotation: 8,
+    z: 1,
+  },
+
+]);
+
+// ================= SPORTS DRAG =================
+
+const startDrag = (e, index) => {
+
+  e.preventDefault();
+
+  dragging.current = true;
+
+  hasDragged.current = false;
+
+  dragIndex.current = index;
+
+  highestZ.current++;
+
+  const boardRect = boardRef.current.getBoundingClientRect();
+
+  const point = e.touches ? e.touches[0] : e;
+
+  offset.current = {
+
+    x:
+      point.clientX -
+      boardRect.left -
+      sportCards[index].x,
+
+    y:
+      point.clientY -
+      boardRect.top -
+      sportCards[index].y,
+
+  };
+
+  setSportCards(prev => {
+
+    const copy = [...prev];
+
+    copy[index] = {
+
+      ...copy[index],
+
+      z: highestZ.current,
+
+    };
+
+    return copy;
+
+  });
+
+};
+
+// ================= MOVE =================
+
+const moveDrag = (e) => {
+
+  if (!dragging.current) return;
+
+  hasDragged.current = true;
+
+  const point = e.touches ? e.touches[0] : e;
+
+  const boardRect = boardRef.current.getBoundingClientRect();
+
+  let x =
+    point.clientX -
+    boardRect.left -
+    offset.current.x;
+
+  let y =
+    point.clientY -
+    boardRect.top -
+    offset.current.y;
+
+  x = Math.max(
+    15,
+    Math.min(
+      boardRect.width - 375,
+      x
+    )
+  );
+
+  y = Math.max(
+    15,
+    Math.min(
+      boardRect.height - 540,
+      y
+    )
+  );
+
+  setSportCards(prev => {
+
+    const copy = [...prev];
+
+    copy[dragIndex.current] = {
+
+      ...copy[dragIndex.current],
+
+      x,
+
+      y,
+
+    };
+
+    return copy;
+
+  });
+
+};
+
+// ================= STOP =================
+
+const stopDrag = () => {
+
+  dragging.current = false;
+
+  dragIndex.current = null;
+
+  setTimeout(() => {
+
+    hasDragged.current = false;
+
+  },120);
+
+};
+
+// ================= EVENTS =================
+
+useEffect(() => {
+
+  window.addEventListener(
+    "mousemove",
+    moveDrag
+  );
+
+  window.addEventListener(
+    "mouseup",
+    stopDrag
+  );
+
+  window.addEventListener(
+    "touchmove",
+    moveDrag,
+    {
+      passive:false,
+    }
+  );
+
+  window.addEventListener(
+    "touchend",
+    stopDrag
+  );
+
+  return () => {
+
+    window.removeEventListener(
+      "mousemove",
+      moveDrag
+    );
+
+    window.removeEventListener(
+      "mouseup",
+      stopDrag
+    );
+
+    window.removeEventListener(
+      "touchmove",
+      moveDrag
+    );
+
+    window.removeEventListener(
+      "touchend",
+      stopDrag
+    );
+
+  };
+
+},[]);
+
 const nextCert = () => {
   setActiveCert((prev) =>
     prev === certifications.length - 1 ? 0 : prev + 1
@@ -110,6 +351,8 @@ const openCertificate = (img) => {
   setActiveCerts([img]);
   setCurrentIndex(0);
 };
+
+
   
   // Form state
   const [formData, setFormData] = useState({
@@ -961,12 +1204,6 @@ useEffect(() => {
 <section className="skills-section reveal" id="skills">
 
   <div className="skills-tree-container">
-
-    <img
-      src={cloud}
-      alt="wind"
-      className="skills-wind-cloud"
-    />
     
     <div className="skills-breeze-bg">
 
@@ -1392,7 +1629,102 @@ useEffect(() => {
 
 </section>
 
-      
+
+<section className="sports-section reveal" id="sports">
+
+  <h2 className="section-title">
+    Sports Achievements
+  </h2>
+
+  <p className="sports-hint">
+    Drag the cards to explore
+  </p>
+
+  <div
+    className="sports-board"
+    ref={boardRef}
+  >
+
+    {sports.map((sport, index) => (
+
+      <div
+        key={index}
+        className={`sports-card ${sport.dummy ? "dummy" : ""}`}
+
+        style={{
+          left: `${sportCards[index].x}px`,
+          top: `${sportCards[index].y}px`,
+          zIndex: sportCards[index].z,
+
+          transform: `
+            rotate(${sportCards[index].rotation}deg)
+            ${
+              dragging.current &&
+              dragIndex.current === index
+                ? "scale(1.05)"
+                : "scale(1)"
+            }
+          `,
+
+          cursor:
+            dragging.current &&
+            dragIndex.current === index
+              ? "grabbing"
+              : "grab",
+
+          transition:
+            dragging.current &&
+            dragIndex.current === index
+              ? "none"
+              : "transform .25s ease",
+        }}
+
+        onMouseDown={(e)=>startDrag(e,index)}
+        onTouchStart={(e)=>startDrag(e,index)}
+
+      >
+
+        <img
+          src={sport.image}
+          alt={sport.sport}
+          className="sports-card-image"
+          draggable={false}
+        />
+
+        {!sport.dummy && (
+
+          <div className="sports-btn-wrapper">
+
+            <button
+              className="sports-view-btn"
+              onClick={(e)=>{
+
+                e.stopPropagation();
+
+                if(hasDragged.current) return;
+
+                openCertificate(sport.image);
+
+              }}
+            >
+
+              View Certificate
+
+            </button>
+
+          </div>
+
+        )}
+
+      </div>
+
+    ))}
+
+  </div>
+
+</section>
+
+
       <section className="contact-section reveal" id="contact">
         <div className="contact-floating-shapes">
           <div className="floating-shape shape-1"></div>
