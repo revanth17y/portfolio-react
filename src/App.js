@@ -1392,21 +1392,6 @@ useEffect(() => {
 
 </section>
 
-      <section className="conferences-section reveal">
-        <h2 className="section-title">Conferences</h2>
-        <div className="conf-card">
-          <div className="conf-badge">
-            <i className="fa-solid fa-scroll" />&nbsp;Paper Presentation
-          </div>
-          <h3>4th International Black Sea Scientific Research Congress</h3>
-          <p className="conf-topic">"Space Exploration and Astronomy"</p>
-          <div className="conf-meta">
-            <span><i className="fa-solid fa-location-dot" />&nbsp;Rize, Türkiye</span>
-            <span><i className="fa-solid fa-calendar-days" />&nbsp;June 2023</span>
-          </div>
-        </div>
-      </section>
-
       
       <section className="contact-section reveal" id="contact">
         <div className="contact-floating-shapes">
