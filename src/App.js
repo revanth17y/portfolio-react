@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback,} from "react";
 import './App.css';
 import Photo from './Images/Photo.png';
 import AboutImage from './Images/about-me.png';
@@ -12,7 +12,7 @@ import Cert7 from './Images/cert7.jpg';
 import Cert8 from './Images/cert8.jpg';
 import InterCert from './Images/inter.jpg';
 import SscCert from './Images/ssc.jpg';
-import BadmintonCert from "./Images/Badminton_2024.bmp";
+// import BadmintonCert from "./Images/Badminton_2024.bmp";
 import badminton2024 from "./Images/2024.png";
 import badminton2025 from "./Images/2025.png";
 import tableTennis from "./Images/2023.png";
@@ -115,7 +115,6 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeSection, setActiveSection] = useState('');
   const [activeCert, setActiveCert] = useState(0);
-
 // ================= SPORTS =================
 
 const boardRef = useRef(null);
@@ -126,6 +125,13 @@ const dragIndex = useRef(null);
 
 const hasDragged = useRef(false);
 
+const moved = useRef(false);
+
+const startPoint = useRef({
+  x: 0,
+  y: 0,
+});
+
 const offset = useRef({
   x: 0,
   y: 0,
@@ -133,48 +139,53 @@ const offset = useRef({
 
 const highestZ = useRef(10);
 
-const [sportCards, setSportCards] = useState([
+const [showSportGuide, setShowSportGuide] = useState(true);
 
+const [sportCards, setSportCards] = useState([
   {
-    x: 120,
-    y: 25,
-    rotation: -7,
+    x: 320,
+    y: 20,
+    rotation: -9,
     z: 3,
   },
-
   {
-    x: 155,
-    y: 45,
-    rotation: 2,
+    x: 340,
+    y: 35,
+    rotation: 0,
     z: 2,
   },
-
   {
-    x: 190,
-    y: 65,
+    x: 360,
+    y: 50,
     rotation: 8,
     z: 1,
   },
-
 ]);
 
-// ================= SPORTS DRAG =================
+// ================= START DRAG =================
 
 const startDrag = (e, index) => {
 
   e.preventDefault();
 
+  const point = e.touches ? e.touches[0] : e;
+
+  startPoint.current = {
+    x: point.clientX,
+    y: point.clientY,
+  };
+
+  moved.current = false;
+
   dragging.current = true;
 
-  hasDragged.current = false;
-
   dragIndex.current = index;
+
+  hasDragged.current = false;
 
   highestZ.current++;
 
   const boardRect = boardRef.current.getBoundingClientRect();
-
-  const point = e.touches ? e.touches[0] : e;
 
   offset.current = {
 
@@ -190,7 +201,7 @@ const startDrag = (e, index) => {
 
   };
 
-  setSportCards(prev => {
+  setSportCards((prev) => {
 
     const copy = [...prev];
 
@@ -210,13 +221,25 @@ const startDrag = (e, index) => {
 
 // ================= MOVE =================
 
-const moveDrag = (e) => {
+const moveDrag = useCallback((e) => {
 
   if (!dragging.current) return;
 
-  hasDragged.current = true;
-
   const point = e.touches ? e.touches[0] : e;
+
+  const dx = point.clientX - startPoint.current.x;
+  const dy = point.clientY - startPoint.current.y;
+
+  if (!moved.current && Math.sqrt(dx * dx + dy * dy) > 6) {
+
+    moved.current = true;
+    hasDragged.current = true;
+
+    setShowSportGuide(false);
+
+  }
+
+  if (!moved.current) return;
 
   const boardRect = boardRef.current.getBoundingClientRect();
 
@@ -230,110 +253,91 @@ const moveDrag = (e) => {
     boardRect.top -
     offset.current.y;
 
-  x = Math.max(
-    15,
-    Math.min(
-      boardRect.width - 375,
-      x
-    )
-  );
+const CARD_WIDTH = 255;
+const CARD_HEIGHT = 370;
 
-  y = Math.max(
-    15,
-    Math.min(
-      boardRect.height - 540,
-      y
-    )
-  );
+const PADDING = 20;
 
-  setSportCards(prev => {
+x = Math.max(
+  PADDING,
+  Math.min(
+    boardRect.width - CARD_WIDTH - PADDING,
+    x
+  )
+);
+
+y = Math.max(
+  PADDING,
+  Math.min(
+    boardRect.height - CARD_HEIGHT - PADDING,
+    y
+  )
+);
+
+  setSportCards((prev) => {
 
     const copy = [...prev];
 
     copy[dragIndex.current] = {
-
       ...copy[dragIndex.current],
-
       x,
-
       y,
-
     };
 
     return copy;
 
   });
 
-};
+}, []);
 
 // ================= STOP =================
 
-const stopDrag = () => {
+const stopDrag = useCallback(() => {
 
   dragging.current = false;
 
   dragIndex.current = null;
 
+  moved.current = false;
+
   setTimeout(() => {
 
     hasDragged.current = false;
 
-  },120);
+  }, 80);
 
-};
+}, []);
 
 // ================= EVENTS =================
 
 useEffect(() => {
 
-  window.addEventListener(
-    "mousemove",
-    moveDrag
-  );
-
-  window.addEventListener(
-    "mouseup",
-    stopDrag
-  );
+  window.addEventListener("mousemove", moveDrag);
+  window.addEventListener("mouseup", stopDrag);
+  window.addEventListener("mouseleave", stopDrag);
 
   window.addEventListener(
     "touchmove",
     moveDrag,
-    {
-      passive:false,
-    }
+    { passive: false }
   );
 
-  window.addEventListener(
-    "touchend",
-    stopDrag
-  );
+  window.addEventListener("touchend", stopDrag);
+  window.addEventListener("touchcancel", stopDrag);
 
   return () => {
 
-    window.removeEventListener(
-      "mousemove",
-      moveDrag
-    );
+    window.removeEventListener("mousemove", moveDrag);
+    window.removeEventListener("mouseup", stopDrag);
+    window.removeEventListener("mouseleave", stopDrag);
 
-    window.removeEventListener(
-      "mouseup",
-      stopDrag
-    );
-
-    window.removeEventListener(
-      "touchmove",
-      moveDrag
-    );
-
-    window.removeEventListener(
-      "touchend",
-      stopDrag
-    );
+    window.removeEventListener("touchmove", moveDrag);
+    window.removeEventListener("touchend", stopDrag);
+    window.removeEventListener("touchcancel", stopDrag);
 
   };
 
-},[]);
+}, [moveDrag, stopDrag]);
 
 const nextCert = () => {
   setActiveCert((prev) =>
@@ -1629,7 +1633,6 @@ useEffect(() => {
 
 </section>
 
-
 <section className="sports-section reveal" id="sports">
 
   <h2 className="section-title">
@@ -1645,15 +1648,34 @@ useEffect(() => {
     ref={boardRef}
   >
 
+    {showSportGuide && (
+
+      <div className="sports-guide">
+
+        <div className="guide-arrow guide-top">
+          ↓ Drag Me
+        </div>
+
+        <div className="guide-arrow guide-left">
+          ← View Certificate
+        </div>
+
+      </div>
+
+    )}
+
     {sports.map((sport, index) => (
 
       <div
         key={index}
-        className={`sports-card ${sport.dummy ? "dummy" : ""}`}
+        className="sports-card"
 
         style={{
+
           left: `${sportCards[index].x}px`,
+
           top: `${sportCards[index].y}px`,
+
           zIndex: sportCards[index].z,
 
           transform: `
@@ -1661,7 +1683,7 @@ useEffect(() => {
             ${
               dragging.current &&
               dragIndex.current === index
-                ? "scale(1.05)"
+                ? "scale(1.04)"
                 : "scale(1)"
             }
           `,
@@ -1677,6 +1699,7 @@ useEffect(() => {
             dragIndex.current === index
               ? "none"
               : "transform .25s ease",
+
         }}
 
         onMouseDown={(e)=>startDrag(e,index)}
@@ -1691,30 +1714,29 @@ useEffect(() => {
           draggable={false}
         />
 
-        {!sport.dummy && (
+        <div className="sports-btn-wrapper">
 
-          <div className="sports-btn-wrapper">
+          <button
 
-            <button
-              className="sports-view-btn"
-              onClick={(e)=>{
+            className="sports-view-btn"
 
-                e.stopPropagation();
+            onClick={(e)=>{
 
-                if(hasDragged.current) return;
+              e.stopPropagation();
 
-                openCertificate(sport.image);
+              if(hasDragged.current) return;
 
-              }}
-            >
+              openCertificate(sport.image);
 
-              View Certificate
+            }}
 
-            </button>
+          >
 
-          </div>
+            View Certificate
 
-        )}
+          </button>
+
+        </div>
 
       </div>
 
@@ -1723,7 +1745,6 @@ useEffect(() => {
   </div>
 
 </section>
-
 
       <section className="contact-section reveal" id="contact">
         <div className="contact-floating-shapes">

@@ -2165,29 +2165,42 @@ html {
 
 }
 
-
 /* =====================================================
    SPORTS SECTION
 ===================================================== */
 
 .sports-section{
-    padding:90px 6vw 80px;
+
+    padding:80px 7vw 60px;
+
     background:#fff;
-    overflow:hidden;
+
     position:relative;
+
+    overflow:hidden;
+
 }
 
 .sports-section .section-title{
-    margin-left:70px;
+
+    margin-left:40px;
+
     margin-bottom:8px;
+
 }
 
 .sports-hint{
-    margin-left:74px;
-    margin-bottom:35px;
-    color:#7b7b7b;
+
+    margin-left:44px;
+
+    margin-bottom:20px;
+
+    color:#8c8c8c;
+
     font-size:.92rem;
-    letter-spacing:.6px;
+
+    letter-spacing:.4px;
+
 }
 
 /* ===================================================== */
@@ -2197,24 +2210,18 @@ html {
     position:relative;
 
     width:100%;
-    height:680px;
 
-    border-radius:32px;
-
-    background:linear-gradient(
-        145deg,
-        #fafafa,
-        #ffffff
-    );
+    height:520px;
 
     overflow:hidden;
 
-    box-shadow:
-        inset 0 0 0 1px rgba(0,0,0,.04);
+    background:#fff;
+
+    border-radius:30px;
 
 }
 
-/* ===================================================== */
+/* Soft Desk Shadow */
 
 .sports-board::before{
 
@@ -2226,15 +2233,100 @@ html {
 
     background:
 
-    radial-gradient(circle at 18% 30%,rgba(179,211,255,.18),transparent 18%),
-
-    radial-gradient(circle at 82% 20%,rgba(255,225,180,.18),transparent 18%),
-
-    radial-gradient(circle at 75% 75%,rgba(222,206,255,.15),transparent 20%),
-
-    radial-gradient(circle at 12% 82%,rgba(208,241,220,.18),transparent 18%);
+    radial-gradient(circle at center,
+    rgba(0,0,0,.04),
+    transparent 70%);
 
     pointer-events:none;
+
+}
+
+/* ===================================================== */
+/* FIRST TIME GUIDE */
+
+.sports-guide{
+
+    position:absolute;
+
+    left:360px;
+
+    top:30px;
+
+    z-index:999;
+
+    pointer-events:none;
+
+    animation:guideFade .8s ease;
+
+}
+
+.guide-arrow{
+
+    position:absolute;
+
+    color:#707070;
+
+    font-size:1rem;
+
+    font-style:italic;
+
+    font-weight:500;
+
+    animation:guideFloat 2s ease-in-out infinite;
+
+    white-space:nowrap;
+
+}
+
+.guide-top{
+
+    top:-42px;
+
+    left:35px;
+
+}
+
+.guide-left{
+
+    top:250px;
+
+    left:-150px;
+
+}
+
+@keyframes guideFloat{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-5px);
+
+    }
+
+}
+
+@keyframes guideFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
 
 }
 
@@ -2244,9 +2336,9 @@ html {
 
     position:absolute;
 
-    width:360px;
+    width:255px;
 
-    border-radius:26px;
+    border-radius:22px;
 
     overflow:hidden;
 
@@ -2254,19 +2346,31 @@ html {
 
     user-select:none;
 
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.16);
-
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+
+        transform .28s ease,
+
+        box-shadow .28s ease;
+
+    box-shadow:
+
+        0 18px 35px rgba(0,0,0,.12);
+
+    background:#fff;
 
 }
 
 .sports-card:hover{
 
     box-shadow:
-        0 28px 70px rgba(0,0,0,.22);
+
+        0 30px 65px rgba(0,0,0,.18);
+
+}
+
+.sports-card:active{
+
+    cursor:grabbing;
 
 }
 
@@ -2276,9 +2380,13 @@ html {
 
     display:block;
 
-    border-radius:26px;
+    border-radius:22px;
 
     pointer-events:none;
+
+    user-select:none;
+
+    -webkit-user-drag:none;
 
 }
 
@@ -2292,7 +2400,7 @@ html {
 
     right:0;
 
-    bottom:22px;
+    bottom:15px;
 
     display:flex;
 
@@ -2306,26 +2414,27 @@ html {
 
     pointer-events:auto;
 
-    padding:12px 26px;
-
     border:none;
 
-    border-radius:999px;
-
-    background:rgba(255,255,255,.96);
+    background:rgba(255,255,255,.97);
 
     backdrop-filter:blur(12px);
 
-    font-size:.9rem;
+    padding:10px 22px;
 
-    font-weight:700;
+    border-radius:999px;
+
+    font-size:.88rem;
+
+    font-weight:600;
 
     cursor:pointer;
 
     transition:.25s;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,.18);
+
+        0 10px 25px rgba(0,0,0,.12);
 
 }
 
@@ -2334,25 +2443,27 @@ html {
     transform:translateY(-2px);
 
     box-shadow:
-        0 18px 40px rgba(0,0,0,.22);
+
+        0 16px 35px rgba(0,0,0,.18);
 
 }
 
 /* ===================================================== */
+/* Floating Animation */
 
-.sports-card.real{
+.sports-card:nth-child(2){
 
     animation:float1 5s ease-in-out infinite;
 
 }
 
-.sports-card:nth-child(2){
+.sports-card:nth-child(3){
 
     animation:float2 6s ease-in-out infinite;
 
 }
 
-.sports-card:nth-child(3){
+.sports-card:nth-child(4){
 
     animation:float3 7s ease-in-out infinite;
 
@@ -2362,13 +2473,13 @@ html {
 
     0%,100%{
 
-        transform:translateY(0px);
+        transform:translateY(0);
 
     }
 
     50%{
 
-        transform:translateY(-8px);
+        transform:translateY(-5px);
 
     }
 
@@ -2378,13 +2489,13 @@ html {
 
     0%,100%{
 
-        transform:translateY(0px);
+        transform:translateY(0);
 
     }
 
     50%{
 
-        transform:translateY(-10px);
+        transform:translateY(-7px);
 
     }
 
@@ -2394,25 +2505,48 @@ html {
 
     0%,100%{
 
-        transform:translateY(0px);
+        transform:translateY(0);
 
     }
 
     50%{
 
-        transform:translateY(-6px);
+        transform:translateY(-4px);
 
     }
 
 }
 
 /* ===================================================== */
+/* Mobile */
 
 @media(max-width:900px){
 
     .sports-section{
 
-        padding:80px 25px;
+        padding:70px 20px;
+
+    }
+
+    .sports-section .section-title{
+
+        margin-left:0;
+
+        text-align:center;
+
+    }
+
+    .sports-hint{
+
+        margin-left:0;
+
+        text-align:center;
+
+    }
+
+    .sports-guide{
+
+        display:none;
 
     }
 
@@ -2420,7 +2554,7 @@ html {
 
         height:auto;
 
-        min-height:1280px;
+        min-height:900px;
 
     }
 
@@ -2428,9 +2562,7 @@ html {
 
         position:relative !important;
 
-        width:90%;
-
-        max-width:360px;
+        width:260px;
 
         left:auto !important;
 
@@ -2438,12 +2570,11 @@ html {
 
         transform:none !important;
 
-        margin:35px auto;
+        margin:25px auto;
 
     }
 
 }
-
 
 /* ═══════════════════════════════════════════
    CONTACT SECTION - ENHANCED WITH LIFE
